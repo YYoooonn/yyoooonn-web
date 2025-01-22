@@ -13,9 +13,7 @@ export function Header({
 }): JSX.Element {
   return (
     <div className={className}>
-      <h2>
-        {title}
-      </h2>
+      <h2>{title}</h2>
       <p>{children}</p>
     </div>
   );

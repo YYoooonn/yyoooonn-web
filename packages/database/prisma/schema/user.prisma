@@ -1,0 +1,11 @@
+model User {
+  id        Int       @unique @default(autoincrement())
+  username  String
+  password  String
+  email     String?
+  firstName String
+  lastName  String
+  createdAt DateTime  @default(dbgenerated("NOW()")) @db.DateTime
+  updatedAt DateTime  @default(dbgenerated("NOW() ON UPDATE NOW()")) @db.DateTime
+  projects  Project[]
+}
