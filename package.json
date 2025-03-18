@@ -1,17 +1,16 @@
 {
-  "name": "yyoooonn_mono",
+  "name": "mono",
   "private": true,
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "prepare": "husky"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --ext .tsx --ext .ts",
-      "prettier --write"
+      "pnpm format"
     ]
   },
   "devDependencies": {
