@@ -9,6 +9,7 @@
     "dev": "turbo dev",
     "dev:api": "turbo dev --filter=api",
     "dev:web": "turbo dev --filter=web",
+    "dev:test": "turbo dev --filter=test",
     "dev:db": "turbo dev --filter=@repo/database",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
