@@ -1,2 +1,3 @@
-export { theme } from "./theme.css";
-export * as global from "./global.css";
+export { color } from "./palettes";
+export { textStyle } from "./textStyles";
+export { global } from "./global.css";

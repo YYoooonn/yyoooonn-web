@@ -6,6 +6,7 @@
     "build:api": "turbo build --filter=api",
     "build:web": "turbo build --filter=web",
     "build:db": "turbo build --filter=@repo/database",
+    "build:test": "turbo build --filter=test",
     "dev": "turbo dev",
     "dev:api": "turbo dev --filter=api",
     "dev:web": "turbo dev --filter=web",

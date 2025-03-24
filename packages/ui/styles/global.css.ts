@@ -1,9 +1,5 @@
-import { globalStyle } from "@vanilla-extract/css";
-import { geistmono } from "./font.css.js";
-
-globalStyle("*", {
-  fontFamily: geistmono,
-  boxSizing: "border-box",
+export const global = {
+  boxSizing: "border-box" as "border-box",
   padding: 0,
   margin: 0,
-});
+};

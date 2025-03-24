@@ -1,3 +1,4 @@
 export const color = {
-  heading1: {},
+  backgroundDefault: "#000000",
+  textDefault: "#FFFFFF",
 };
