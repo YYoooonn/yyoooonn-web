@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { ibmPlexSans, goudyOld, goudyOldBold } from "@/assets/fonts";
+import {
+  ibmPlexSans,
+  sourceCodePro,
+  goudyOld,
+  goudyOldBold,
+} from "@/assets/fonts";
 import "@/styles/global.css";
 
 export const metadata: Metadata = {
@@ -15,7 +20,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${goudyOld.variable} ${goudyOldBold.variable} ${ibmPlexSans.variable}`}
+      className={`${goudyOld.variable} ${goudyOldBold.variable} ${ibmPlexSans.variable} ${sourceCodePro.variable}`}
     >
       <body>{children}</body>
     </html>

@@ -1,12 +1,9 @@
-import { global } from "@repo/ui/styles";
-import { theme } from "./theme.css";
 import { globalStyle } from "@vanilla-extract/css";
+import { global } from "@repo/ui/styles";
 
 globalStyle("*", {
-  boxSizing: "border-box",
-  padding: 0,
-  margin: 0,
-  fontFamily: "var(--font-root)",
+  ...global,
+  fontWeight: "500",
 });
 
 globalStyle("html, body, #__next", {

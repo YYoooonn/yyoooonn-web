@@ -1,9 +1,15 @@
 import { createGlobalTheme } from "@vanilla-extract/css";
-import { color, textStyle } from "@repo/ui/styles";
+import { theme } from "@repo/ui/styles";
 
-export const theme = createGlobalTheme(":root", {
+export const devTheme = createGlobalTheme(":root", {
+  ...theme,
+  fontFamily: { regular: `var(--font-dev)`, bold: `var(--font-dev)` },
+});
+
+export const designTheme = createGlobalTheme(":root", {
+  ...theme,
   fontFamily: {
-    root: `var(--font-root)`,
-    design: { regular: `var(--font-design)`, bold: `var(--font-design-bold)` },
+    regular: `var(--font-design)`,
+    bold: `var(--font-design-bold)`,
   },
 });
