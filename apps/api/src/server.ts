@@ -1,4 +1,4 @@
-import { json, urlencoded } from "body-parser";
+import { json } from "body-parser";
 import express, { type Express } from "express";
 
 export const createServer = (): Express => {

@@ -2,7 +2,7 @@ import { globalStyle } from "@vanilla-extract/css";
 import * as theme from "./theme/index.css";
 
 globalStyle("*", {
-  boxSizing: "border-box" as "border-box",
+  boxSizing: "border-box",
   padding: 0,
   margin: 0,
 });
