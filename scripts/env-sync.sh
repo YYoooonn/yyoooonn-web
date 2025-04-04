@@ -16,9 +16,9 @@ while [[ "$#" -gt 0 ]]; do
       shift 2
       ;;
     *)
-        TARGET_DIRS+=("$1")
-        shift
-        ;;
+      TARGET_DIRS+=("$1")
+      shift
+      ;;
   esac
 done
 
