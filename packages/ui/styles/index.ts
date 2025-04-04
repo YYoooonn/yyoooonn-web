@@ -1,4 +1,3 @@
-export { color } from "./palettes";
-export { textStyle } from "./textStyles";
-export { global } from "./global.css";
-export { theme } from "./theme.css";
+import "./global.css";
+export * as breakpoints from "./constants/breakpoints";
+export * as theme from "./theme/index.css";
