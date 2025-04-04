@@ -10,7 +10,9 @@
       "@/": ["./src/"],
       "@/*": ["./src/*"],
       "@public/*": ["./public/*"]
-    }
+    },
+    "module": "ESNext",
+    "moduleResolution": "bundler"
   },
   "include": [
     "**/*.ts",
