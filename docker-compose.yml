@@ -1,0 +1,17 @@
+services:
+  postgres:
+    platform: linux/amd64
+    image: postgres:15
+    container_name: db
+    restart: always
+    ports:
+      - ${POSTGRES_PORT}:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgres/data
+
+volumes:
+  pgdata:

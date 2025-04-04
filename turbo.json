@@ -9,7 +9,6 @@
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "dev": {
-      "dependsOn": ["^db:migrate:dev"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "cache": false,
       "persistent": true
