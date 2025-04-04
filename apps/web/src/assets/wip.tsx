@@ -1,4 +1,4 @@
-import { designTheme } from "@/styles/theme.css";
+import { theme } from "@repo/ui/styles";
 
 export function WIP() {
   return (
@@ -14,14 +14,11 @@ export function WIP() {
         flexDirection: "column",
       }}
     >
-      <h1
-        style={{ fontFamily: designTheme.fontFamily.bold, textAlign: "center" }}
-      >
+      <h1 style={{ textAlign: "center", color: theme.color.light.primary }}>
         yyoooonn
       </h1>
       <h1
         style={{
-          fontFamily: designTheme.fontFamily.regular,
           textAlign: "center",
         }}
       >

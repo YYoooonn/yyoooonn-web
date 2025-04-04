@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
-import {
-  ibmPlexSans,
-  sourceCodePro,
-  goudyOld,
-  goudyOldBold,
-} from "@/assets/fonts";
-import "@/styles/global.css";
+import { ibmPlexSans, jetBrains_Mono, sortMillGoudy } from "@/assets/fonts";
+import "@repo/ui/styles";
 
 export const metadata: Metadata = {
   title: "yyoooonn",
@@ -20,7 +15,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${goudyOld.variable} ${goudyOldBold.variable} ${ibmPlexSans.variable} ${sourceCodePro.variable}`}
+      className={`${jetBrains_Mono.variable} ${sortMillGoudy.variable} ${ibmPlexSans.variable}`}
     >
       <body>{children}</body>
     </html>
