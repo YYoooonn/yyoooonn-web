@@ -12,7 +12,8 @@
       "@public/*": ["./public/*"]
     },
     "module": "ESNext",
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "strict": true
   },
   "include": [
     "**/*.ts",

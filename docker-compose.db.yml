@@ -1,4 +1,5 @@
 services:
+
   postgres:
     platform: linux/amd64
     image: postgres:15
@@ -12,6 +13,11 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - pgdata:/var/lib/postgres/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "user"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
 
 volumes:
   pgdata:

@@ -1,0 +1,58 @@
+services:
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - front
+      - back
+    networks:
+      - dev-net
+    extra_hosts:
+      - "localhost:127.0.0.1"
+      - "api.localhost:127.0.0.1"
+
+  web:
+    build:
+      context: ./apps/web
+    container_name: front
+    expose:
+      - "3000"
+    networks:
+      - dev-net
+
+  back:
+    build:
+      context: ./apps/back
+    expose:
+      - "8080"
+    networks:
+      - dev-net
+
+  postgres:
+    platform: linux/amd64
+    image: postgres:15
+    container_name: db
+    restart: always
+    ports:
+      - ${POSTGRES_PORT}:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgres/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "user"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:
+
+networks:
+  prod-net:

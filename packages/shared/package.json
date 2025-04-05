@@ -1,0 +1,17 @@
+{
+  "name": "@repo/shared",
+  "version": "0.0.1",
+  "scripts": {
+    "codegen": "graphql-codegen --config codegen.ts"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^3.0.0",
+    "@graphql-codegen/client-preset": "^4.8.0",
+    "@graphql-codegen/typescript": "^3.0.0",
+    "@graphql-codegen/typescript-operations": "^3.0.0",
+    "@graphql-codegen/typescript-react-apollo": "^3.0.0",
+    "@graphql-codegen/typescript-resolvers": "^3.0.0",
+    "@graphql-typed-document-node/core": "^3.2.0",
+    "typescript": "^5.0.0"
+  }
+}

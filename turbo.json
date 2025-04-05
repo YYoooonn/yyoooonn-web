@@ -4,14 +4,22 @@
   "globalDependencies": [".env"],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^codegen", "env:sync", "^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "dev": {
+      "dependsOn": ["^codegen", "env:sync"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "cache": false,
       "persistent": true
+    },
+    "env:sync": {
+      "persistent": true
+    },
+    "codegen": {
+      "dependsOn": ["^codegen"],
+      "cache": false
     },
     "generate": {
       "dependsOn": ["^generate"],
