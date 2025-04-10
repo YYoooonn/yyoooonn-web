@@ -1,3 +1,6 @@
 packages:
   - "apps/*"
   - "packages/*"
+  - "!apps/example"
+  - "!apps/api"
+  - "!packages/database"

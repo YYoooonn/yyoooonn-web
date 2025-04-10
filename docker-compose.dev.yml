@@ -7,30 +7,41 @@ services:
     volumes:
       - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      - front
-      - back
+      - web
+      - bff
     networks:
       - dev-net
     extra_hosts:
       - "localhost:127.0.0.1"
       - "api.localhost:127.0.0.1"
+    profiles:
+      - test
 
   web:
     build:
-      context: ./apps/web
+      context: .
+      dockerfile: dockerfile/Dockerfile.web
     container_name: front
     expose:
       - "3000"
     networks:
       - dev-net
+    profiles:
+      - test
+      - local
 
-  back:
+  bff:
     build:
-      context: ./apps/back
+      context: .
+      dockerfile: dockerfile/Dockerfile.bff
+    container_name: back
     expose:
-      - "8080"
+      - "4000"
     networks:
       - dev-net
+    profiles:
+      - test
+      - local
 
   postgres:
     platform: linux/amd64
@@ -50,9 +61,11 @@ services:
       interval: 3s
       timeout: 3s
       retries: 10
+    profiles:
+      - db
 
 volumes:
   pgdata:
 
 networks:
-  prod-net:
+  dev-net:

@@ -1,5 +1,4 @@
 import { GraphQLResolveInfo } from "graphql";
-import { Context } from "../index";
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
   [P in K]-?: NonNullable<T[P]>;
 };
@@ -14,8 +13,6 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
 };
-export type WithIndex<TObject> = TObject & Record<string, any>;
-export type ResolversObject<TObject> = WithIndex<TObject>;
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
@@ -123,28 +120,28 @@ export type DirectiveResolverFn<
 ) => TResult | Promise<TResult>;
 
 /** Mapping between all available schema types and the resolvers types */
-export type ResolversTypes = ResolversObject<{
+export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
   ID: ResolverTypeWrapper<Scalars["ID"]>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars["String"]>;
   User: ResolverTypeWrapper<User>;
-}>;
+};
 
 /** Mapping between all available schema types and the resolvers parents */
-export type ResolversParentTypes = ResolversObject<{
+export type ResolversParentTypes = {
   Boolean: Scalars["Boolean"];
   ID: Scalars["ID"];
   Query: {};
   String: Scalars["String"];
   User: User;
-}>;
+};
 
 export type QueryResolvers<
-  ContextType = Context,
+  ContextType = any,
   ParentType extends
     ResolversParentTypes["Query"] = ResolversParentTypes["Query"],
-> = ResolversObject<{
+> = {
   user?: Resolver<
     Maybe<ResolversTypes["User"]>,
     ParentType,
@@ -152,22 +149,22 @@ export type QueryResolvers<
     RequireFields<QueryUserArgs, "id">
   >;
   users?: Resolver<Array<ResolversTypes["User"]>, ParentType, ContextType>;
-}>;
+};
 
 export type UserResolvers<
-  ContextType = Context,
+  ContextType = any,
   ParentType extends
     ResolversParentTypes["User"] = ResolversParentTypes["User"],
-> = ResolversObject<{
+> = {
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
+};
 
-export type Resolvers<ContextType = Context> = ResolversObject<{
+export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
-}>;
+};
 
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {

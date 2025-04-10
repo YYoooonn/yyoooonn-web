@@ -1,18 +1,18 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const config: CodegenConfig = {
-  schema: "../../apps/back/src/schema/**/*.graphql",
-  documents: ["../../apps/web/src/operations/**/*.graphql"],
+  schema: "./graphql/schema/**/*.graphql",
+  documents: ["./graphql/operations/**/*.graphql"],
   generates: {
-    "./generated/": {
+    "./generated/client/": {
       preset: "client",
       plugins: [],
     },
-    "./generated/resolvers-type.ts": {
+    "./generated/types.ts": {
       plugins: ["typescript-resolvers", "typescript"],
       config: {
-        contextType: "../index#Context",
-        useIndexSignature: true,
+        // contextType: "../index#Context",
+        // useIndexSignature: true,
         // avoidOptionals: true,
         // useTypeImports: true,
         // defaultMapper: "unknown",

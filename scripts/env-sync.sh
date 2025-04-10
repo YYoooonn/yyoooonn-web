@@ -2,7 +2,7 @@
 
 # 기본값
 ENV_FILE=".env"
-TARGET_DIRS=(packages/database apps/back apps/web apps/api)
+TARGET_DIRS=(packages/database apps/bff apps/web apps/api)
 
 # 옵션 파싱
 while [[ "$#" -gt 0 ]]; do

@@ -13,6 +13,32 @@ services:
       - back
     networks:
       - prod-net
+    profiles:
+      -prod
+
+  web:
+    build:
+      context: .
+      dockerfile: dockerfile/Dockerfile.web
+    container_name: front
+    expose:
+      - "3000"
+    networks:
+      - prod-net
+    profiles:
+      -prod
+
+  bff:
+    build:
+      context: .
+      dockerfile: dockerfile/Dockerfile.bff
+    container_name: back
+    expose:
+      - "8080"
+    networks:
+      - prod-net
+    profiles:
+      -prod
 
   postgres:
     platform: linux/amd64
@@ -32,6 +58,8 @@ services:
       interval: 3s
       timeout: 3s
       retries: 10
+    profiles:
+      - db
 
 volumes:
   pgdata:
