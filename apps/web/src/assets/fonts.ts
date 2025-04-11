@@ -1,7 +1,7 @@
 import {
   JetBrains_Mono,
   IBM_Plex_Sans_KR,
-  Sorts_Mill_Goudy,
+  Goudy_Bookletter_1911,
 } from "next/font/google";
 
 /* 폰트 변경시 style에서 variable 체크필요 */
@@ -22,10 +22,10 @@ export const jetBrains_Mono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
 });
 
-export const sortMillGoudy = Sorts_Mill_Goudy({
+export const sortMillGoudy = Goudy_Bookletter_1911({
   subsets: ["latin"],
   display: "swap",
   weight: ["400"],
   style: ["normal"],
-  variable: "--font-sort-mill-goudy",
+  variable: "--font-goudy-bookletter",
 });

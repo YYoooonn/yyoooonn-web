@@ -26,23 +26,27 @@ export const textStyle = {
   },
   body1: {
     fontWeight: "500",
-    fontSize: "16px",
+    fontSize: "18px",
     lineHeight: "100%",
   },
   body2: {
     fontWeight: "400",
-    fontSize: "14px",
+    fontSize: "16px",
     lineHeight: "150%",
   },
   subtitle1: {
     fontWeight: "400",
-    fontSize: "16px",
+    fontSize: "14px",
     lineHeight: "17.5px",
-    letterSpacing: "0.15px",
   },
   subtitle2: {
     fontWeight: "500",
     fontSize: "12px",
-    letterSpacing: "0.11px",
+    lineHeight: "auto",
+  },
+  subtitle3: {
+    fontWeight: "500",
+    fontSize: "8px",
+    lineHeight: "auto",
   },
 };
