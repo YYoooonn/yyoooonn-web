@@ -1,9 +1,6 @@
-import { GraphQLResolveInfo } from "graphql";
-export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
-  [P in K]-?: NonNullable<T[P]>;
-};
+import type { GraphQLResolveInfo } from "graphql";
 export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
+export type InputMaybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
@@ -12,6 +9,34 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
+  [P in K]-?: NonNullable<T[P]>;
+};
+/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: string;
+  String: string;
+  Boolean: boolean;
+  Int: number;
+  Float: number;
+};
+
+export type Query = {
+  __typename?: "Query";
+  _empty?: Maybe<Scalars["String"]>;
+  user?: Maybe<User>;
+};
+
+export type QueryUserArgs = {
+  id: Scalars["ID"];
+};
+
+export type User = {
+  __typename?: "User";
+  email: Scalars["String"];
+  id: Scalars["ID"];
+  name: Scalars["String"];
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -142,13 +167,13 @@ export type QueryResolvers<
   ParentType extends
     ResolversParentTypes["Query"] = ResolversParentTypes["Query"],
 > = {
+  _empty?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   user?: Resolver<
     Maybe<ResolversTypes["User"]>,
     ParentType,
     ContextType,
     RequireFields<QueryUserArgs, "id">
   >;
-  users?: Resolver<Array<ResolversTypes["User"]>, ParentType, ContextType>;
 };
 
 export type UserResolvers<
@@ -156,6 +181,7 @@ export type UserResolvers<
   ParentType extends
     ResolversParentTypes["User"] = ResolversParentTypes["User"],
 > = {
+  email?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -164,29 +190,4 @@ export type UserResolvers<
 export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
-};
-
-/** All built-in and custom scalars, mapped to their actual values */
-export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-};
-
-export type Query = {
-  __typename?: "Query";
-  user?: Maybe<User>;
-  users: Array<User>;
-};
-
-export type QueryUserArgs = {
-  id: Scalars["ID"];
-};
-
-export type User = {
-  __typename?: "User";
-  id: Scalars["ID"];
-  name: Scalars["String"];
 };

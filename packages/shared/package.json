@@ -1,16 +1,20 @@
 {
   "name": "@repo/shared",
   "version": "0.0.1",
-  "type": "module",
+  "types": "module",
   "exports": {
-    "./graphql": "./dist/index.js",
-    "./graphql/generated/types": "./graphql/generated/types.js",
-    "./graphql/schema": "./dist/schema"
+    "./graphql": "./dist/graphql/index.js",
+    "./graphql/schema": "./dist/graphql/schema",
+    "./graphql/client": "./dist/generated/client.js"
   },
   "scripts": {
-    "build": "tsc && pnpm copy-graphql",
-    "copy-graphql": "cp -rp ./graphql/operations ./dist/ && cp -rp ./graphql/schema ./dist/",
-    "codegen": "graphql-codegen --config ./graphql/codegen.ts"
+    "build": "tsup && pnpm copy-graphql",
+    "copy-graphql": "cp -rp ./src/graphql/schema ./dist/graphql/",
+    "codegen": "graphql-codegen --config ./codegen.ts"
+  },
+  "peerDependencies": {
+    "@apollo/client": "^3.0.0",
+    "graphql": "^16.10.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^3.0.0",
@@ -23,6 +27,8 @@
     "@graphql-tools/merge": "^9.0.24",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@repo/typescript-config": "workspace:*",
+    "@types/graphql": "^14.5.0",
+    "@types/node": "^22.14.1",
     "graphql-tag": "^2.12.6",
     "tsup": "^8.4.0",
     "typescript": "^5.0.0"

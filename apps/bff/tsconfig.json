@@ -8,7 +8,12 @@
     "module": "esnext",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "types": ["node"]
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@repo/shared/graphql": ["../../packages/shared/src/graphql/index.ts"],
+      "@repo/shared/*": ["./src/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "./dist/**/*"]

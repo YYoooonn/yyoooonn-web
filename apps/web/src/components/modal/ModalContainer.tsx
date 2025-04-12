@@ -15,6 +15,7 @@ function ModalContainer() {
 
         return (
           <ModalStyleContainer
+            key={index}
             onClose={() => {
               close();
             }}
