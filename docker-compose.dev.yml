@@ -34,6 +34,8 @@ services:
     build:
       context: .
       dockerfile: dockerfile/Dockerfile.bff
+    environment:
+      - NODE_ENV=production # graphql 파일 라우팅 때문에 필요
     container_name: back
     expose:
       - "4000"
