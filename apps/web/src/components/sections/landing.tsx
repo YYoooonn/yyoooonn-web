@@ -29,7 +29,7 @@ export function LandingSection({ toggle, p }: SProps) {
           ...themeVars.textStyle.xlarge,
         }}
       >
-        <FontMixer text={"yyoooonn"} progress={progress} end={0.5} />
+        <FontMixer text={"yyoooonn"} progress={progress} end={0.4} />
       </h1>
 
       <div
@@ -37,7 +37,12 @@ export function LandingSection({ toggle, p }: SProps) {
           ...themeVars.textStyle.medium,
         }}
       >
-        <ColorMixer text="work in progress" progress={progress} end={0.8} />
+        <ColorMixer
+          text="work in progress"
+          progress={progress}
+          start={0.4}
+          end={0.9}
+        />
       </div>
     </LandingSectionContainer>
   );

@@ -10,7 +10,7 @@ type PSnapPageScroll = {
   onScroll?: (page: number, progress: number) => void;
 } & PropsWithChildren;
 
-const DAMP = 2;
+const DAMP = 3;
 
 export const SnapPageScroll: FC<PSnapPageScroll> = ({
   titles,
@@ -43,8 +43,8 @@ export const SnapPageScroll: FC<PSnapPageScroll> = ({
     {
       current: page,
       config: {
-        mass: 2,
-        tension: 1000,
+        mass: 5,
+        tension: 800,
         friction: 100,
         precision: 0.0001,
       },
