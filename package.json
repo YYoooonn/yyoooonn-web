@@ -16,6 +16,7 @@
     "dev:all": "chmod +x scripts/dev-with-cleanup.sh && ./scripts/dev-with-cleanup.sh",
     "docker:dev": "docker-compose -f docker-compose.dev.yml --profile test up --build",
     "docker:prod": "docker-compose -f docker-compose.prod.yml --profile prod up --build",
+    "docker:build": "docker-compose -f docker-compose.prod.yml --profile prod build",
     "generate": "turbo run generate",
     "codegen": "turbo run codegen",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",

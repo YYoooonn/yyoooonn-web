@@ -2,19 +2,41 @@ services:
 
   nginx:
     image: nginx:latest
+    container_name: nginx
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
-      - /etc/letsencrypt:/etc/letsencrypt:ro  # 호스트에서 cert 관리
+      # - /etc/letsencrypt:/etc/letsencrypt:ro  # 호스트에서 cert 관리
+      - ./data/certbot/conf:/etc/letsencrypt # certbot의 인증서 저장소
+      - ./data/certbot/www:/var/www/certbot # wellknown challenge를 위한 경로
     depends_on:
-      - front
-      - back
+      - web
+      - bff
+      - certbot
     networks:
       - prod-net
+      - nginx_network
     profiles:
-      -prod
+      - prod
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: > 
+      /bin/sh -c "trap exit TERM; 
+      while :; do 
+        certbot renew --deploy-hook 'docker exec nginx nginx -s reload'; 
+        sleep 12h & wait $${!}; 
+      done;"
+    networks:
+      - nginx_network
+    profiles:
+      - prod
 
   web:
     build:
@@ -23,22 +45,28 @@ services:
     container_name: front
     expose:
       - "3000"
+    image: yyoooonn/yyoooonnweb:v0.0.0
+    platform: linux/amd64
     networks:
       - prod-net
     profiles:
-      -prod
+      - prod
 
   bff:
     build:
       context: .
       dockerfile: dockerfile/Dockerfile.bff
+    environment:
+      - NODE_ENV=production
     container_name: back
+    image: yyoooonn/yyoooonnbff:v0.0.0
+    platform: linux/amd64
     expose:
-      - "8080"
+      - "4000"
     networks:
       - prod-net
     profiles:
-      -prod
+      - prod
 
   postgres:
     platform: linux/amd64
@@ -66,3 +94,4 @@ volumes:
 
 networks:
   prod-net:
+  nginx_network:
