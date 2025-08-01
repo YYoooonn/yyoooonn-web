@@ -1,6 +1,6 @@
 "use client";
 
-import { SnapPageScroll } from "@/components/ui/snapscroll";
+import { SnapPageScroll } from "@/ui/snapscroll";
 import { LandingSection } from "@/components/section/landing";
 import { AboutSection } from "@/components/section/about";
 import { useState } from "react";
