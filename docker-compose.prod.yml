@@ -42,7 +42,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: dockerfile/Dockerfile.web
+      dockerfile: apps/web/Dockerfile
     container_name: front
     expose:
       - "3000"
@@ -56,7 +56,7 @@ services:
   bff:
     build:
       context: .
-      dockerfile: dockerfile/Dockerfile.bff
+      dockerfile: apps/bff/Dockerfile
     environment:
       - NODE_ENV=production
     container_name: back

@@ -46,4 +46,4 @@ USER express
 
 COPY --from=installer /app .
 
-CMD ["node", "apps/bff/dist/server.js"]
+CMD ["node", "apps/bff/dist/index.js"]

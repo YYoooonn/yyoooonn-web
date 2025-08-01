@@ -3,7 +3,7 @@ import expressServer from "./app.js"; // 추가
 import { expressMiddleware } from "@apollo/server/express4";
 import { createContext } from "./context/createContext.js";
 import { ApolloServer } from "@apollo/server";
-import schema from "./schema/index.js"; // 스키마를 가져옵니다
+import schema from "./schema/index.js";
 import { Context } from "./context/context.js";
 
 export async function createApolloServer() {
