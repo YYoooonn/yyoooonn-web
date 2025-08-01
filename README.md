@@ -74,6 +74,15 @@ docker-compose -f docker-compose.prod.yml up --build
 ```
 
 ```bash
+# 현재 docker compose의 command 활용하여 작업
 # cerbot renewal code on deploy environmnet
 0 0 * * * certbot renew --post-hook "docker exec nginx nginx -s reload"
+```
+
+```bash
+# ec2 instance
+# start.sh 복사해두고
+chmod +x start.sh
+
+./start.sh
 ```

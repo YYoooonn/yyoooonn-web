@@ -25,8 +25,7 @@ coverage
 .next/
 out/
 build
-dist
-
+dist/
 
 # Debug
 npm-debug.log*
@@ -42,3 +41,5 @@ nginx.prod.conf
 
 # prisma
 prisma/migrations/
+
+.vscode/
