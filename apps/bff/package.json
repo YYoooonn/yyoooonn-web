@@ -4,15 +4,28 @@
   "description": "bff server, express + apollo server",
   "private": "true",
   "type": "module",
+  "main": "src/index.ts",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "tsx watch src/index.ts",
     "build": "tsup",
-    "start": "pnpm build && node ./dist/server.js"
+    "start": "pnpm build && node ./dist/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.11.3",
+    "@google/genai": "^1.9.0",
+    "@repo/graphql": "workspace:*",
+    "dotenv": "^17.2.0",
+    "express": "^4.21.2",
+    "graphql": "^16.10.0",
+    "jsonwebtoken": "^9.0.2"
+  },
   "devDependencies": {
+    "@graphql-tools/load-files": "^7.0.1",
+    "@graphql-tools/merge": "^9.0.24",
+    "@graphql-tools/schema": "^10.0.23",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/express": "^4.17.21",
@@ -21,14 +34,5 @@
     "tsup": "^8.4.0",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2"
-  },
-  "dependencies": {
-    "@apollo/server": "^4.11.3",
-    "@graphql-tools/load-files": "^7.0.1",
-    "@graphql-tools/merge": "^9.0.24",
-    "@repo/shared": "workspace:*",
-    "express": "^4.21.2",
-    "graphql": "^16.10.0",
-    "jsonwebtoken": "^9.0.2"
   }
 }

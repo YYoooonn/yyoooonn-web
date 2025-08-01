@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { signJwt } from "../lib/auth";
+import { signJwt } from "../lib/auth.js";
 
 const router: Router = Router();
 

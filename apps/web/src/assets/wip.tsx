@@ -1,4 +1,4 @@
-import { themeVars } from "@repo/ui/styles";
+import { themeVars } from "@/styles";
 
 export function WIP() {
   return (

@@ -4,6 +4,8 @@
   "scripts": {
     "build": "pnpm env:sync && turbo run build",
     "build:web": "pnpm env:sync && turbo run build --filter=web...",
+    "dev": "turbo run dev",
+    "dev:all": "chmod +x scripts/dev-with-cleanup.sh && ./scripts/dev-with-cleanup.sh",
     "db:migrate:deploy": "turbo run db:migrate:deploy",
     "db:migrate:dev": "turbo run db:migrate:dev",
     "db:push": "turbo run db:push",
@@ -12,8 +14,6 @@
     "db:up": "docker-compose -f docker-compose.dev.yml --profile db up -d",
     "db:down": "docker-compose -f docker-compose.dev.yml --profile db down",
     "env:sync": "chmod +x scripts/env-sync.sh && ./scripts/env-sync.sh",
-    "dev": "turbo run dev",
-    "dev:all": "chmod +x scripts/dev-with-cleanup.sh && ./scripts/dev-with-cleanup.sh",
     "docker:dev": "docker-compose -f docker-compose.dev.yml --profile test up",
     "docker:dev:build": "docker-compose -f docker-compose.dev.yml --profile test build",
     "docker:prod": "docker-compose -f docker-compose.prod.yml --profile prod up",

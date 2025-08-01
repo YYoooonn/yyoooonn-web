@@ -1,11 +1,11 @@
 "use client";
 
-import { SnapPageScroll } from "@/components/snapscroll/SnapScrollContainer";
+import { SnapPageScroll } from "@/components/ui/snapscroll";
+import { LandingSection } from "@/components/section/landing";
+import { AboutSection } from "@/components/section/about";
 import { useState } from "react";
-import { LandingSection } from "@/components/sections/landing";
-import { AboutSection } from "@/components/sections/about";
 
-const TITLES = ["wip", "about", "Contact"];
+const TITLES = ["wip", "about", "contact"];
 
 export default function Home() {
   const [page, setPage] = useState(0);

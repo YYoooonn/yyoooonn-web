@@ -1,13 +1,22 @@
 import http from "http";
-import expressServer from "./app"; // 추가
+import expressServer from "./app.js"; // 추가
 import { expressMiddleware } from "@apollo/server/express4";
-import { createApolloServer } from "./graphql/server";
-import { createContext } from "./graphql/context";
+import { createContext } from "./context/createContext.js";
+import { ApolloServer } from "@apollo/server";
+import schema from "./schema/index.js"; // 스키마를 가져옵니다
+import { Context } from "./context/context.js";
 
-// // JSON 요청을 처리하기 위한 미들웨어 추가
-// app.use(express.json());
+export async function createApolloServer() {
+  const server = new ApolloServer<Context>({
+    schema: schema,
+    introspection: true, // 개발 환경에서만 사용
+  });
 
-async function startServer() {
+  await server.start();
+  return server;
+}
+
+export async function startServer() {
   const httpServer = http.createServer(expressServer);
   const apolloServer = await createApolloServer();
 
@@ -25,8 +34,3 @@ async function startServer() {
     console.log(`🚀 Server ready at http://localhost:${port}`);
   });
 }
-
-// 서버 실행
-startServer().catch((err) => {
-  console.error("❌ Server failed to start:", err);
-});

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ibmPlexSans, jetBrains_Mono, sortMillGoudy } from "@/assets/fonts";
 import "@/styles/global.css";
 import ModalContainer from "@/components/modal/ModalContainer";
-import { defaultTheme, themeVars } from "@repo/ui/styles";
+import { defaultTheme, themeVars } from "@/styles";
 
 export const metadata: Metadata = {
   title: "yyoooonn",
