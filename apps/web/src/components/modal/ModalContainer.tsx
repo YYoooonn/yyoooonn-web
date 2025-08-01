@@ -1,7 +1,7 @@
 "use client";
 
 import { useModalStore, ModalType } from "@/store/useModalStore";
-import { ModalStyleContainer } from "@/components/ui/modal";
+import { ModalStyleContainer } from "@/ui/modal";
 
 function ModalContainer() {
   const { modals, close } = useModalStore();

@@ -1,8 +1,8 @@
 "use client";
 
 import { themeVars } from "@/styles";
-import { ColorMixer, FontMixer } from "@/components/ui/animated";
-import { LandingSectionContainer } from "@/components/ui/section";
+import { ColorMixer, FontMixer } from "@/ui/animated";
+import { LandingSectionContainer } from "@/ui/section";
 import { useEffect, useState } from "react";
 
 type SProps = {

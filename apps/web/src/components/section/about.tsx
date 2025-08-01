@@ -1,6 +1,6 @@
 "use client";
 
-import { LandingSectionContainer } from "@/components/ui/section";
+import { LandingSectionContainer } from "@/ui/section";
 import { themeVars } from "@/styles";
 import Link from "next/link";
 import { useState, useEffect } from "react";
