@@ -1,15 +1,21 @@
 {
   "name": "@repo/graphql",
   "version": "0.1.0",
-  "type": "module",
+  "typesVersions": {
+    "*": {
+      "server": [
+        "generated/server/resolvers-types.d.ts"
+      ]
+    }
+  },
   "exports": {
     "./client": {
       "types": "./generated/client/index.ts",
       "default": "./generated/client/index.ts"
     },
     "./server": {
-      "types": "./generated/server/resolvers-types.ts",
-      "default": "./generated/server/resolvers-types.ts"
+      "types": "./generated/server/resolvers-types.d.ts",
+      "default": "./generated/server/resolvers-types.d.ts"
     }
   },
   "scripts": {
@@ -23,7 +29,7 @@
     "@graphql-codegen/typescript": "^4.1.6",
     "@graphql-codegen/typescript-operations": "^4.6.1",
     "@graphql-codegen/typescript-resolvers": "^4.5.1",
-    "@graphql-codegen/typescript-vue-apollo": "^4.1.2",
+    "@graphql-codegen/typescript-react-apollo": "^4.1.2",
     "graphql": "^16.11.0",
     "graphql-tag": "^2.12.6",
     "prettier": "^3.6.2"

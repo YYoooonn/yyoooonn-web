@@ -45,29 +45,47 @@ services:
       - test
       - local
 
-  postgres:
-    platform: linux/amd64
-    image: postgres:15
-    container_name: db
-    restart: always
+  # postgres:
+  #   platform: linux/amd64
+  #   image: postgres:15
+  #   container_name: db
+  #   restart: always
+  #   ports:
+  #     - ${POSTGRES_PORT}:5432
+  #   environment:
+  #     POSTGRES_USER: ${POSTGRES_USER}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #     POSTGRES_DB: ${POSTGRES_DB}
+  #   volumes:
+  #     - pgdata:/var/lib/postgres/data
+  #   healthcheck:
+  #     test: ["CMD", "pg_isready", "-U", "user"]
+  #     interval: 3s
+  #     timeout: 3s
+  #     retries: 10
+  #   profiles:
+  #     - db
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    env_file:
+      - .env
     ports:
-      - ${POSTGRES_PORT}:5432
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      - ${REDIS_PORT}:6379
+    command: >
+      sh -c "redis-server --requirepass $${REDIS_PASSWORD} --maxmemory $${MAX_MEMORY} --appendonly yes"
     volumes:
-      - pgdata:/var/lib/postgres/data
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "user"]
-      interval: 3s
-      timeout: 3s
-      retries: 10
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - dev-net
     profiles:
       - db
 
 volumes:
   pgdata:
+  redis-data:
 
 networks:
   dev-net:

@@ -5,7 +5,11 @@ const config: CodegenConfig = {
   documents: ["./**/operations/**/*.graphql", "./**/fragments/**/*.graphql"],
   generates: {
     "./generated/client/index.ts": {
-      plugins: ["typescript", "typescript-operations", "typescript-vue-apollo"],
+      plugins: [
+        "typescript",
+        "typescript-operations",
+        "typescript-react-apollo",
+      ],
       config: {
         useTypeImports: true,
         fragmentMasking: true,

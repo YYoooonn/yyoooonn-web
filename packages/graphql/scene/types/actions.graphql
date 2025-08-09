@@ -1,0 +1,10 @@
+type EditAction {
+  type: EditActionType!
+  data: JSON
+}
+
+enum EditActionType {
+  add
+  update
+  remove
+}

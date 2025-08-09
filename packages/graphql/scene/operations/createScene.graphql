@@ -1,0 +1,6 @@
+mutation CreateScene($input: CreateSceneInput!) {
+  createScene(input: $input) {
+    summary
+    data { ...SceneObjectFields}
+  }
+}

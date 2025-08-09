@@ -1,0 +1,6 @@
+mutation EditScene($input : SceneObjectInput!) {
+    editScene(input: $input) {
+        summary
+        actions {...EditActionFields}
+    }
+}

@@ -1,6 +1,5 @@
-import gql from "graphql-tag";
-import * as VueApolloComposable from "@vue/apollo-composable";
-import type * as VueCompositionApi from "vue";
+import { gql } from "@apollo/client";
+import * as Apollo from "@apollo/client";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -21,7 +20,7 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
     };
-export type ReactiveFunction<TParam> = () => TParam;
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -34,8 +33,8 @@ export type Scalars = {
 
 export type Animation = {
   __typename?: "Animation";
-  delay?: Maybe<Scalars["Int"]["output"]>;
-  duration: Scalars["Int"]["output"];
+  delay?: Maybe<Scalars["Float"]["output"]>;
+  duration: Scalars["Float"]["output"];
   from: Scalars["Float"]["output"];
   property: Scalars["String"]["output"];
   repeat?: Maybe<Scalars["Int"]["output"]>;
@@ -51,7 +50,45 @@ export type Camera = {
   zoom?: Maybe<Scalars["Float"]["output"]>;
 };
 
-export type CameraType = "ORTHOGRAPHIC" | "PERSPECTIVE";
+export type CameraType = "orthographic" | "perspective";
+
+export type ChatLog = {
+  __typename?: "ChatLog";
+  data?: Maybe<Array<Scalars["JSON"]["output"]>>;
+  message: Scalars["String"]["output"];
+  sender: Scalars["String"]["output"];
+  timestamp: Scalars["Int"]["output"];
+};
+
+export type ChatLogsResponse = {
+  __typename?: "ChatLogsResponse";
+  logs?: Maybe<Array<ChatLog>>;
+};
+
+export type CreateSceneInput = {
+  id: Scalars["String"]["input"];
+  prompt: Scalars["String"]["input"];
+};
+
+export type CreateSceneResponse = {
+  __typename?: "CreateSceneResponse";
+  data?: Maybe<Array<SceneObject>>;
+  summary?: Maybe<Scalars["String"]["output"]>;
+};
+
+export type EditAction = {
+  __typename?: "EditAction";
+  data?: Maybe<Scalars["JSON"]["output"]>;
+  type: EditActionType;
+};
+
+export type EditActionType = "add" | "remove" | "update";
+
+export type EditSceneResponse = {
+  __typename?: "EditSceneResponse";
+  actions?: Maybe<Array<EditAction>>;
+  summary?: Maybe<Scalars["String"]["output"]>;
+};
 
 export type Geometry = {
   __typename?: "Geometry";
@@ -64,7 +101,7 @@ export type Geometry = {
   vertices?: Maybe<Array<Scalars["Float"]["output"]>>;
 };
 
-export type GeometryType = "BOX" | "CONE" | "CUSTOM" | "CYLINDER" | "SPHERE";
+export type GeometryType = "box" | "cone" | "custom" | "cylinder" | "sphere";
 
 export type Light = {
   __typename?: "Light";
@@ -77,7 +114,7 @@ export type Light = {
   type: LightType;
 };
 
-export type LightType = "AMBIENT" | "DIRECTIONAL" | "POINT" | "SPOT";
+export type LightType = "ambient" | "directional" | "point" | "spot";
 
 export type Material = {
   __typename?: "Material";
@@ -89,53 +126,79 @@ export type Material = {
   type: MaterialType;
 };
 
-export type MaterialType = "BASIC" | "PHYSICAL" | "STANDARD";
+export type MaterialType = "basic" | "physical" | "standard";
 
 export type Mutation = {
   __typename?: "Mutation";
-  generateScene: Scene;
-  generateSceneObject: SceneObject;
+  createScene: CreateSceneResponse;
+  createSceneObject: SceneObject;
+  editScene: EditSceneResponse;
+  saveScene?: Maybe<Scalars["Boolean"]["output"]>;
+  updateScene: SceneData;
+  updateSceneObject: SceneObject;
 };
 
-export type MutationGenerateSceneArgs = {
-  input: SceneInput;
+export type MutationCreateSceneArgs = {
+  input: CreateSceneInput;
 };
 
-export type MutationGenerateSceneObjectArgs = {
+export type MutationCreateSceneObjectArgs = {
+  input: PromptInput;
+};
+
+export type MutationEditSceneArgs = {
   input: SceneObjectInput;
+};
+
+export type MutationSaveSceneArgs = {
+  data: Scalars["JSON"]["input"];
+  id: Scalars["ID"]["input"];
+};
+
+export type MutationUpdateSceneArgs = {
+  data: Scalars["JSON"]["input"];
+};
+
+export type MutationUpdateSceneObjectArgs = {
+  input: PromptInput;
+};
+
+export type PromptInput = {
+  prompt: Scalars["String"]["input"];
 };
 
 export type Query = {
   __typename?: "Query";
-  getScene?: Maybe<Scene>;
+  getChatLogs: ChatLogsResponse;
+  getScene?: Maybe<SceneData>;
+};
+
+export type QueryGetChatLogsArgs = {
+  id: Scalars["ID"]["input"];
 };
 
 export type QueryGetSceneArgs = {
   id: Scalars["ID"]["input"];
 };
 
-export type Scene = {
-  __typename?: "Scene";
-  background?: Maybe<Scalars["String"]["output"]>;
-  id: Scalars["ID"]["output"];
-  objects: Array<SceneObject>;
-};
-
-export type SceneInput = {
-  prompt: Scalars["String"]["input"];
+export type SceneData = {
+  __typename?: "SceneData";
+  objects?: Maybe<Array<SceneObject>>;
+  rootId: Scalars["ID"]["output"];
 };
 
 export type SceneObject = {
   __typename?: "SceneObject";
   animations?: Maybe<Array<Animation>>;
+  background?: Maybe<Scalars["String"]["output"]>;
   camera?: Maybe<Camera>;
-  children?: Maybe<Array<SceneObject>>;
   count?: Maybe<Scalars["Int"]["output"]>;
   geometry?: Maybe<Geometry>;
   id: Scalars["ID"]["output"];
   light?: Maybe<Light>;
   material?: Maybe<Material>;
   name?: Maybe<Scalars["String"]["output"]>;
+  parentId?: Maybe<Scalars["ID"]["output"]>;
   position?: Maybe<Vector3>;
   rotation?: Maybe<Vector3>;
   scale?: Maybe<Vector3>;
@@ -143,16 +206,42 @@ export type SceneObject = {
 };
 
 export type SceneObjectInput = {
+  data: Scalars["JSON"]["input"];
+  id: Scalars["String"]["input"];
   prompt: Scalars["String"]["input"];
 };
 
-export type SceneObjectType = "CAMERA" | "GROUP" | "LIGHT" | "MESH";
+export type SceneObjectType = "camera" | "group" | "light" | "mesh" | "scene";
 
 export type Vector3 = {
   __typename?: "Vector3";
   x: Scalars["Float"]["output"];
   y: Scalars["Float"]["output"];
   z: Scalars["Float"]["output"];
+};
+
+export type GetChatLogsQueryVariables = Exact<{
+  id: Scalars["ID"]["input"];
+}>;
+
+export type GetChatLogsQuery = {
+  __typename?: "Query";
+  getChatLogs: {
+    __typename?: "ChatLogsResponse";
+    logs?: Array<{
+      __typename?: "ChatLog";
+      sender: string;
+      message: string;
+      timestamp: number;
+      data?: Array<Record<string, any>> | null;
+    }> | null;
+  };
+};
+
+export type EditActionFieldsFragment = {
+  __typename?: "EditAction";
+  type: EditActionType;
+  data?: Record<string, any> | null;
 };
 
 export type AnimationFieldsFragment = {
@@ -206,172 +295,10 @@ export type MaterialFieldsFragment = {
   opacity?: number | null;
 };
 
-export type SceneFieldsFragment = {
-  __typename?: "Scene";
-  id: string;
-  background?: string | null;
-  objects: Array<{
-    __typename?: "SceneObject";
-    id: string;
-    name?: string | null;
-    type: SceneObjectType;
-    count?: number | null;
-    geometry?: {
-      __typename?: "Geometry";
-      type: GeometryType;
-      params?: Array<number> | null;
-      vertices?: Array<number> | null;
-      indices?: Array<number> | null;
-      normals?: Array<number> | null;
-      uvs?: Array<number> | null;
-      colors?: Array<number> | null;
-    } | null;
-    material?: {
-      __typename?: "Material";
-      type: MaterialType;
-      color?: string | null;
-      roughness?: number | null;
-      metalness?: number | null;
-      transparent?: boolean | null;
-      opacity?: number | null;
-    } | null;
-    light?: {
-      __typename?: "Light";
-      type: LightType;
-      color?: string | null;
-      intensity?: number | null;
-      distance?: number | null;
-      angle?: number | null;
-      position?: {
-        __typename?: "Vector3";
-        x: number;
-        y: number;
-        z: number;
-      } | null;
-      target?: {
-        __typename?: "Vector3";
-        x: number;
-        y: number;
-        z: number;
-      } | null;
-    } | null;
-    camera?: {
-      __typename?: "Camera";
-      type: CameraType;
-      fov?: number | null;
-      near?: number | null;
-      far?: number | null;
-      zoom?: number | null;
-    } | null;
-    position?: {
-      __typename?: "Vector3";
-      x: number;
-      y: number;
-      z: number;
-    } | null;
-    rotation?: {
-      __typename?: "Vector3";
-      x: number;
-      y: number;
-      z: number;
-    } | null;
-    scale?: { __typename?: "Vector3"; x: number; y: number; z: number } | null;
-    animations?: Array<{
-      __typename?: "Animation";
-      property: string;
-      from: number;
-      to: number;
-      duration: number;
-      delay?: number | null;
-      repeat?: number | null;
-    }> | null;
-    children?: Array<{
-      __typename?: "SceneObject";
-      id: string;
-      name?: string | null;
-      type: SceneObjectType;
-      count?: number | null;
-      geometry?: {
-        __typename?: "Geometry";
-        type: GeometryType;
-        params?: Array<number> | null;
-        vertices?: Array<number> | null;
-        indices?: Array<number> | null;
-        normals?: Array<number> | null;
-        uvs?: Array<number> | null;
-        colors?: Array<number> | null;
-      } | null;
-      material?: {
-        __typename?: "Material";
-        type: MaterialType;
-        color?: string | null;
-        roughness?: number | null;
-        metalness?: number | null;
-        transparent?: boolean | null;
-        opacity?: number | null;
-      } | null;
-      light?: {
-        __typename?: "Light";
-        type: LightType;
-        color?: string | null;
-        intensity?: number | null;
-        distance?: number | null;
-        angle?: number | null;
-        position?: {
-          __typename?: "Vector3";
-          x: number;
-          y: number;
-          z: number;
-        } | null;
-        target?: {
-          __typename?: "Vector3";
-          x: number;
-          y: number;
-          z: number;
-        } | null;
-      } | null;
-      camera?: {
-        __typename?: "Camera";
-        type: CameraType;
-        fov?: number | null;
-        near?: number | null;
-        far?: number | null;
-        zoom?: number | null;
-      } | null;
-      position?: {
-        __typename?: "Vector3";
-        x: number;
-        y: number;
-        z: number;
-      } | null;
-      rotation?: {
-        __typename?: "Vector3";
-        x: number;
-        y: number;
-        z: number;
-      } | null;
-      scale?: {
-        __typename?: "Vector3";
-        x: number;
-        y: number;
-        z: number;
-      } | null;
-      animations?: Array<{
-        __typename?: "Animation";
-        property: string;
-        from: number;
-        to: number;
-        duration: number;
-        delay?: number | null;
-        repeat?: number | null;
-      }> | null;
-    }> | null;
-  }>;
-};
-
 export type SceneObjectFieldsFragment = {
   __typename?: "SceneObject";
   id: string;
+  parentId?: string | null;
   name?: string | null;
   type: SceneObjectType;
   count?: number | null;
@@ -429,82 +356,6 @@ export type SceneObjectFieldsFragment = {
     delay?: number | null;
     repeat?: number | null;
   }> | null;
-  children?: Array<{
-    __typename?: "SceneObject";
-    id: string;
-    name?: string | null;
-    type: SceneObjectType;
-    count?: number | null;
-    geometry?: {
-      __typename?: "Geometry";
-      type: GeometryType;
-      params?: Array<number> | null;
-      vertices?: Array<number> | null;
-      indices?: Array<number> | null;
-      normals?: Array<number> | null;
-      uvs?: Array<number> | null;
-      colors?: Array<number> | null;
-    } | null;
-    material?: {
-      __typename?: "Material";
-      type: MaterialType;
-      color?: string | null;
-      roughness?: number | null;
-      metalness?: number | null;
-      transparent?: boolean | null;
-      opacity?: number | null;
-    } | null;
-    light?: {
-      __typename?: "Light";
-      type: LightType;
-      color?: string | null;
-      intensity?: number | null;
-      distance?: number | null;
-      angle?: number | null;
-      position?: {
-        __typename?: "Vector3";
-        x: number;
-        y: number;
-        z: number;
-      } | null;
-      target?: {
-        __typename?: "Vector3";
-        x: number;
-        y: number;
-        z: number;
-      } | null;
-    } | null;
-    camera?: {
-      __typename?: "Camera";
-      type: CameraType;
-      fov?: number | null;
-      near?: number | null;
-      far?: number | null;
-      zoom?: number | null;
-    } | null;
-    position?: {
-      __typename?: "Vector3";
-      x: number;
-      y: number;
-      z: number;
-    } | null;
-    rotation?: {
-      __typename?: "Vector3";
-      x: number;
-      y: number;
-      z: number;
-    } | null;
-    scale?: { __typename?: "Vector3"; x: number; y: number; z: number } | null;
-    animations?: Array<{
-      __typename?: "Animation";
-      property: string;
-      from: number;
-      to: number;
-      duration: number;
-      delay?: number | null;
-      repeat?: number | null;
-    }> | null;
-  }> | null;
 };
 
 export type Vector3FieldsFragment = {
@@ -514,190 +365,16 @@ export type Vector3FieldsFragment = {
   z: number;
 };
 
-export type GenerateSceneMutationVariables = Exact<{
-  input: SceneInput;
+export type CreateSceneObjectMutationVariables = Exact<{
+  input: PromptInput;
 }>;
 
-export type GenerateSceneMutation = {
+export type CreateSceneObjectMutation = {
   __typename?: "Mutation";
-  generateScene: {
-    __typename?: "Scene";
-    id: string;
-    background?: string | null;
-    objects: Array<{
-      __typename?: "SceneObject";
-      id: string;
-      name?: string | null;
-      type: SceneObjectType;
-      count?: number | null;
-      geometry?: {
-        __typename?: "Geometry";
-        type: GeometryType;
-        params?: Array<number> | null;
-        vertices?: Array<number> | null;
-        indices?: Array<number> | null;
-        normals?: Array<number> | null;
-        uvs?: Array<number> | null;
-        colors?: Array<number> | null;
-      } | null;
-      material?: {
-        __typename?: "Material";
-        type: MaterialType;
-        color?: string | null;
-        roughness?: number | null;
-        metalness?: number | null;
-        transparent?: boolean | null;
-        opacity?: number | null;
-      } | null;
-      light?: {
-        __typename?: "Light";
-        type: LightType;
-        color?: string | null;
-        intensity?: number | null;
-        distance?: number | null;
-        angle?: number | null;
-        position?: {
-          __typename?: "Vector3";
-          x: number;
-          y: number;
-          z: number;
-        } | null;
-        target?: {
-          __typename?: "Vector3";
-          x: number;
-          y: number;
-          z: number;
-        } | null;
-      } | null;
-      camera?: {
-        __typename?: "Camera";
-        type: CameraType;
-        fov?: number | null;
-        near?: number | null;
-        far?: number | null;
-        zoom?: number | null;
-      } | null;
-      position?: {
-        __typename?: "Vector3";
-        x: number;
-        y: number;
-        z: number;
-      } | null;
-      rotation?: {
-        __typename?: "Vector3";
-        x: number;
-        y: number;
-        z: number;
-      } | null;
-      scale?: {
-        __typename?: "Vector3";
-        x: number;
-        y: number;
-        z: number;
-      } | null;
-      animations?: Array<{
-        __typename?: "Animation";
-        property: string;
-        from: number;
-        to: number;
-        duration: number;
-        delay?: number | null;
-        repeat?: number | null;
-      }> | null;
-      children?: Array<{
-        __typename?: "SceneObject";
-        id: string;
-        name?: string | null;
-        type: SceneObjectType;
-        count?: number | null;
-        geometry?: {
-          __typename?: "Geometry";
-          type: GeometryType;
-          params?: Array<number> | null;
-          vertices?: Array<number> | null;
-          indices?: Array<number> | null;
-          normals?: Array<number> | null;
-          uvs?: Array<number> | null;
-          colors?: Array<number> | null;
-        } | null;
-        material?: {
-          __typename?: "Material";
-          type: MaterialType;
-          color?: string | null;
-          roughness?: number | null;
-          metalness?: number | null;
-          transparent?: boolean | null;
-          opacity?: number | null;
-        } | null;
-        light?: {
-          __typename?: "Light";
-          type: LightType;
-          color?: string | null;
-          intensity?: number | null;
-          distance?: number | null;
-          angle?: number | null;
-          position?: {
-            __typename?: "Vector3";
-            x: number;
-            y: number;
-            z: number;
-          } | null;
-          target?: {
-            __typename?: "Vector3";
-            x: number;
-            y: number;
-            z: number;
-          } | null;
-        } | null;
-        camera?: {
-          __typename?: "Camera";
-          type: CameraType;
-          fov?: number | null;
-          near?: number | null;
-          far?: number | null;
-          zoom?: number | null;
-        } | null;
-        position?: {
-          __typename?: "Vector3";
-          x: number;
-          y: number;
-          z: number;
-        } | null;
-        rotation?: {
-          __typename?: "Vector3";
-          x: number;
-          y: number;
-          z: number;
-        } | null;
-        scale?: {
-          __typename?: "Vector3";
-          x: number;
-          y: number;
-          z: number;
-        } | null;
-        animations?: Array<{
-          __typename?: "Animation";
-          property: string;
-          from: number;
-          to: number;
-          duration: number;
-          delay?: number | null;
-          repeat?: number | null;
-        }> | null;
-      }> | null;
-    }>;
-  };
-};
-
-export type GenerateSceneObjectMutationVariables = Exact<{
-  input: SceneObjectInput;
-}>;
-
-export type GenerateSceneObjectMutation = {
-  __typename?: "Mutation";
-  generateSceneObject: {
+  createSceneObject: {
     __typename?: "SceneObject";
     id: string;
+    parentId?: string | null;
     name?: string | null;
     type: SceneObjectType;
     count?: number | null;
@@ -770,9 +447,22 @@ export type GenerateSceneObjectMutation = {
       delay?: number | null;
       repeat?: number | null;
     }> | null;
-    children?: Array<{
+  };
+};
+
+export type CreateSceneMutationVariables = Exact<{
+  input: CreateSceneInput;
+}>;
+
+export type CreateSceneMutation = {
+  __typename?: "Mutation";
+  createScene: {
+    __typename?: "CreateSceneResponse";
+    summary?: string | null;
+    data?: Array<{
       __typename?: "SceneObject";
       id: string;
+      parentId?: string | null;
       name?: string | null;
       type: SceneObjectType;
       count?: number | null;
@@ -850,6 +540,23 @@ export type GenerateSceneObjectMutation = {
         delay?: number | null;
         repeat?: number | null;
       }> | null;
+    }> | null;
+  };
+};
+
+export type EditSceneMutationVariables = Exact<{
+  input: SceneObjectInput;
+}>;
+
+export type EditSceneMutation = {
+  __typename?: "Mutation";
+  editScene: {
+    __typename?: "EditSceneResponse";
+    summary?: string | null;
+    actions?: Array<{
+      __typename?: "EditAction";
+      type: EditActionType;
+      data?: Record<string, any> | null;
     }> | null;
   };
 };
@@ -861,12 +568,12 @@ export type GetSceneQueryVariables = Exact<{
 export type GetSceneQuery = {
   __typename?: "Query";
   getScene?: {
-    __typename?: "Scene";
-    id: string;
-    background?: string | null;
-    objects: Array<{
+    __typename?: "SceneData";
+    rootId: string;
+    objects?: Array<{
       __typename?: "SceneObject";
       id: string;
+      parentId?: string | null;
       name?: string | null;
       type: SceneObjectType;
       count?: number | null;
@@ -944,91 +651,205 @@ export type GetSceneQuery = {
         delay?: number | null;
         repeat?: number | null;
       }> | null;
-      children?: Array<{
-        __typename?: "SceneObject";
-        id: string;
-        name?: string | null;
-        type: SceneObjectType;
-        count?: number | null;
-        geometry?: {
-          __typename?: "Geometry";
-          type: GeometryType;
-          params?: Array<number> | null;
-          vertices?: Array<number> | null;
-          indices?: Array<number> | null;
-          normals?: Array<number> | null;
-          uvs?: Array<number> | null;
-          colors?: Array<number> | null;
-        } | null;
-        material?: {
-          __typename?: "Material";
-          type: MaterialType;
-          color?: string | null;
-          roughness?: number | null;
-          metalness?: number | null;
-          transparent?: boolean | null;
-          opacity?: number | null;
-        } | null;
-        light?: {
-          __typename?: "Light";
-          type: LightType;
-          color?: string | null;
-          intensity?: number | null;
-          distance?: number | null;
-          angle?: number | null;
-          position?: {
-            __typename?: "Vector3";
-            x: number;
-            y: number;
-            z: number;
-          } | null;
-          target?: {
-            __typename?: "Vector3";
-            x: number;
-            y: number;
-            z: number;
-          } | null;
-        } | null;
-        camera?: {
-          __typename?: "Camera";
-          type: CameraType;
-          fov?: number | null;
-          near?: number | null;
-          far?: number | null;
-          zoom?: number | null;
-        } | null;
+    }> | null;
+  } | null;
+};
+
+export type SaveSceneMutationVariables = Exact<{
+  id: Scalars["ID"]["input"];
+  data: Scalars["JSON"]["input"];
+}>;
+
+export type SaveSceneMutation = {
+  __typename?: "Mutation";
+  saveScene?: boolean | null;
+};
+
+export type UpdateSceneMutationVariables = Exact<{
+  data: Scalars["JSON"]["input"];
+}>;
+
+export type UpdateSceneMutation = {
+  __typename?: "Mutation";
+  updateScene: {
+    __typename?: "SceneData";
+    rootId: string;
+    objects?: Array<{
+      __typename?: "SceneObject";
+      id: string;
+      parentId?: string | null;
+      name?: string | null;
+      type: SceneObjectType;
+      count?: number | null;
+      geometry?: {
+        __typename?: "Geometry";
+        type: GeometryType;
+        params?: Array<number> | null;
+        vertices?: Array<number> | null;
+        indices?: Array<number> | null;
+        normals?: Array<number> | null;
+        uvs?: Array<number> | null;
+        colors?: Array<number> | null;
+      } | null;
+      material?: {
+        __typename?: "Material";
+        type: MaterialType;
+        color?: string | null;
+        roughness?: number | null;
+        metalness?: number | null;
+        transparent?: boolean | null;
+        opacity?: number | null;
+      } | null;
+      light?: {
+        __typename?: "Light";
+        type: LightType;
+        color?: string | null;
+        intensity?: number | null;
+        distance?: number | null;
+        angle?: number | null;
         position?: {
           __typename?: "Vector3";
           x: number;
           y: number;
           z: number;
         } | null;
-        rotation?: {
+        target?: {
           __typename?: "Vector3";
           x: number;
           y: number;
           z: number;
         } | null;
-        scale?: {
-          __typename?: "Vector3";
-          x: number;
-          y: number;
-          z: number;
-        } | null;
-        animations?: Array<{
-          __typename?: "Animation";
-          property: string;
-          from: number;
-          to: number;
-          duration: number;
-          delay?: number | null;
-          repeat?: number | null;
-        }> | null;
+      } | null;
+      camera?: {
+        __typename?: "Camera";
+        type: CameraType;
+        fov?: number | null;
+        near?: number | null;
+        far?: number | null;
+        zoom?: number | null;
+      } | null;
+      position?: {
+        __typename?: "Vector3";
+        x: number;
+        y: number;
+        z: number;
+      } | null;
+      rotation?: {
+        __typename?: "Vector3";
+        x: number;
+        y: number;
+        z: number;
+      } | null;
+      scale?: {
+        __typename?: "Vector3";
+        x: number;
+        y: number;
+        z: number;
+      } | null;
+      animations?: Array<{
+        __typename?: "Animation";
+        property: string;
+        from: number;
+        to: number;
+        duration: number;
+        delay?: number | null;
+        repeat?: number | null;
       }> | null;
-    }>;
-  } | null;
+    }> | null;
+  };
 };
 
+export type UpdateSceneObjectMutationVariables = Exact<{
+  input: PromptInput;
+}>;
+
+export type UpdateSceneObjectMutation = {
+  __typename?: "Mutation";
+  updateSceneObject: {
+    __typename?: "SceneObject";
+    id: string;
+    parentId?: string | null;
+    name?: string | null;
+    type: SceneObjectType;
+    count?: number | null;
+    geometry?: {
+      __typename?: "Geometry";
+      type: GeometryType;
+      params?: Array<number> | null;
+      vertices?: Array<number> | null;
+      indices?: Array<number> | null;
+      normals?: Array<number> | null;
+      uvs?: Array<number> | null;
+      colors?: Array<number> | null;
+    } | null;
+    material?: {
+      __typename?: "Material";
+      type: MaterialType;
+      color?: string | null;
+      roughness?: number | null;
+      metalness?: number | null;
+      transparent?: boolean | null;
+      opacity?: number | null;
+    } | null;
+    light?: {
+      __typename?: "Light";
+      type: LightType;
+      color?: string | null;
+      intensity?: number | null;
+      distance?: number | null;
+      angle?: number | null;
+      position?: {
+        __typename?: "Vector3";
+        x: number;
+        y: number;
+        z: number;
+      } | null;
+      target?: {
+        __typename?: "Vector3";
+        x: number;
+        y: number;
+        z: number;
+      } | null;
+    } | null;
+    camera?: {
+      __typename?: "Camera";
+      type: CameraType;
+      fov?: number | null;
+      near?: number | null;
+      far?: number | null;
+      zoom?: number | null;
+    } | null;
+    position?: {
+      __typename?: "Vector3";
+      x: number;
+      y: number;
+      z: number;
+    } | null;
+    rotation?: {
+      __typename?: "Vector3";
+      x: number;
+      y: number;
+      z: number;
+    } | null;
+    scale?: { __typename?: "Vector3"; x: number; y: number; z: number } | null;
+    animations?: Array<{
+      __typename?: "Animation";
+      property: string;
+      from: number;
+      to: number;
+      duration: number;
+      delay?: number | null;
+      repeat?: number | null;
+    }> | null;
+  };
+};
+
+export const EditActionFieldsFragmentDoc = gql`
+  fragment EditActionFields on EditAction {
+    type
+    data
+  }
+`;
 export const GeometryFieldsFragmentDoc = gql`
   fragment GeometryFields on Geometry {
     type
@@ -1095,6 +916,7 @@ export const AnimationFieldsFragmentDoc = gql`
 export const SceneObjectFieldsFragmentDoc = gql`
   fragment SceneObjectFields on SceneObject {
     id
+    parentId
     name
     type
     geometry {
@@ -1122,36 +944,6 @@ export const SceneObjectFieldsFragmentDoc = gql`
     animations {
       ...AnimationFields
     }
-    children {
-      id
-      name
-      type
-      geometry {
-        ...GeometryFields
-      }
-      material {
-        ...MaterialFields
-      }
-      light {
-        ...LightFields
-      }
-      camera {
-        ...CameraFields
-      }
-      position {
-        ...Vector3Fields
-      }
-      rotation {
-        ...Vector3Fields
-      }
-      scale {
-        ...Vector3Fields
-      }
-      count
-      animations {
-        ...AnimationFields
-      }
-    }
   }
   ${GeometryFieldsFragmentDoc}
   ${MaterialFieldsFragmentDoc}
@@ -1160,188 +952,474 @@ export const SceneObjectFieldsFragmentDoc = gql`
   ${Vector3FieldsFragmentDoc}
   ${AnimationFieldsFragmentDoc}
 `;
-export const SceneFieldsFragmentDoc = gql`
-  fragment SceneFields on Scene {
-    id
-    background
-    objects {
+export const GetChatLogsDocument = gql`
+  query GetChatLogs($id: ID!) {
+    getChatLogs(id: $id) {
+      logs {
+        sender
+        message
+        timestamp
+        data
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetChatLogsQuery__
+ *
+ * To run a query within a React component, call `useGetChatLogsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetChatLogsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetChatLogsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetChatLogsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetChatLogsQuery,
+    GetChatLogsQueryVariables
+  > &
+    (
+      | { variables: GetChatLogsQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetChatLogsQuery, GetChatLogsQueryVariables>(
+    GetChatLogsDocument,
+    options,
+  );
+}
+export function useGetChatLogsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetChatLogsQuery,
+    GetChatLogsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetChatLogsQuery, GetChatLogsQueryVariables>(
+    GetChatLogsDocument,
+    options,
+  );
+}
+export function useGetChatLogsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetChatLogsQuery,
+        GetChatLogsQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetChatLogsQuery, GetChatLogsQueryVariables>(
+    GetChatLogsDocument,
+    options,
+  );
+}
+export type GetChatLogsQueryHookResult = ReturnType<typeof useGetChatLogsQuery>;
+export type GetChatLogsLazyQueryHookResult = ReturnType<
+  typeof useGetChatLogsLazyQuery
+>;
+export type GetChatLogsSuspenseQueryHookResult = ReturnType<
+  typeof useGetChatLogsSuspenseQuery
+>;
+export type GetChatLogsQueryResult = Apollo.QueryResult<
+  GetChatLogsQuery,
+  GetChatLogsQueryVariables
+>;
+export const CreateSceneObjectDocument = gql`
+  mutation CreateSceneObject($input: PromptInput!) {
+    createSceneObject(input: $input) {
       ...SceneObjectFields
     }
   }
   ${SceneObjectFieldsFragmentDoc}
 `;
-export const GenerateSceneDocument = gql`
-  mutation GenerateScene($input: SceneInput!) {
-    generateScene(input: $input) {
-      ...SceneFields
-    }
-  }
-  ${SceneFieldsFragmentDoc}
-`;
+export type CreateSceneObjectMutationFn = Apollo.MutationFunction<
+  CreateSceneObjectMutation,
+  CreateSceneObjectMutationVariables
+>;
 
 /**
- * __useGenerateSceneMutation__
+ * __useCreateSceneObjectMutation__
  *
- * To run a mutation, you first call `useGenerateSceneMutation` within a Vue component and pass it any options that fit your needs.
- * When your component renders, `useGenerateSceneMutation` returns an object that includes:
+ * To run a mutation, you first call `useCreateSceneObjectMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSceneObjectMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
- * - Several other properties: https://v4.apollo.vuejs.org/api/use-mutation.html#return
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param options that will be passed into the mutation, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/mutation.html#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { mutate, loading, error, onDone } = useGenerateSceneMutation({
+ * const [createSceneObjectMutation, { data, loading, error }] = useCreateSceneObjectMutation({
  *   variables: {
- *     input: // value for 'input'
+ *      input: // value for 'input'
  *   },
  * });
  */
-export function useGenerateSceneMutation(
-  options:
-    | VueApolloComposable.UseMutationOptions<
-        GenerateSceneMutation,
-        GenerateSceneMutationVariables
-      >
-    | ReactiveFunction<
-        VueApolloComposable.UseMutationOptions<
-          GenerateSceneMutation,
-          GenerateSceneMutationVariables
-        >
-      > = {},
+export function useCreateSceneObjectMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateSceneObjectMutation,
+    CreateSceneObjectMutationVariables
+  >,
 ) {
-  return VueApolloComposable.useMutation<
-    GenerateSceneMutation,
-    GenerateSceneMutationVariables
-  >(GenerateSceneDocument, options);
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateSceneObjectMutation,
+    CreateSceneObjectMutationVariables
+  >(CreateSceneObjectDocument, options);
 }
-export type GenerateSceneMutationCompositionFunctionResult =
-  VueApolloComposable.UseMutationReturn<
-    GenerateSceneMutation,
-    GenerateSceneMutationVariables
-  >;
-export const GenerateSceneObjectDocument = gql`
-  mutation GenerateSceneObject($input: SceneObjectInput!) {
-    generateSceneObject(input: $input) {
-      ...SceneObjectFields
+export type CreateSceneObjectMutationHookResult = ReturnType<
+  typeof useCreateSceneObjectMutation
+>;
+export type CreateSceneObjectMutationResult =
+  Apollo.MutationResult<CreateSceneObjectMutation>;
+export type CreateSceneObjectMutationOptions = Apollo.BaseMutationOptions<
+  CreateSceneObjectMutation,
+  CreateSceneObjectMutationVariables
+>;
+export const CreateSceneDocument = gql`
+  mutation CreateScene($input: CreateSceneInput!) {
+    createScene(input: $input) {
+      summary
+      data {
+        ...SceneObjectFields
+      }
     }
   }
   ${SceneObjectFieldsFragmentDoc}
 `;
+export type CreateSceneMutationFn = Apollo.MutationFunction<
+  CreateSceneMutation,
+  CreateSceneMutationVariables
+>;
 
 /**
- * __useGenerateSceneObjectMutation__
+ * __useCreateSceneMutation__
  *
- * To run a mutation, you first call `useGenerateSceneObjectMutation` within a Vue component and pass it any options that fit your needs.
- * When your component renders, `useGenerateSceneObjectMutation` returns an object that includes:
+ * To run a mutation, you first call `useCreateSceneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSceneMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
- * - Several other properties: https://v4.apollo.vuejs.org/api/use-mutation.html#return
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param options that will be passed into the mutation, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/mutation.html#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { mutate, loading, error, onDone } = useGenerateSceneObjectMutation({
+ * const [createSceneMutation, { data, loading, error }] = useCreateSceneMutation({
  *   variables: {
- *     input: // value for 'input'
+ *      input: // value for 'input'
  *   },
  * });
  */
-export function useGenerateSceneObjectMutation(
-  options:
-    | VueApolloComposable.UseMutationOptions<
-        GenerateSceneObjectMutation,
-        GenerateSceneObjectMutationVariables
-      >
-    | ReactiveFunction<
-        VueApolloComposable.UseMutationOptions<
-          GenerateSceneObjectMutation,
-          GenerateSceneObjectMutationVariables
-        >
-      > = {},
+export function useCreateSceneMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateSceneMutation,
+    CreateSceneMutationVariables
+  >,
 ) {
-  return VueApolloComposable.useMutation<
-    GenerateSceneObjectMutation,
-    GenerateSceneObjectMutationVariables
-  >(GenerateSceneObjectDocument, options);
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateSceneMutation, CreateSceneMutationVariables>(
+    CreateSceneDocument,
+    options,
+  );
 }
-export type GenerateSceneObjectMutationCompositionFunctionResult =
-  VueApolloComposable.UseMutationReturn<
-    GenerateSceneObjectMutation,
-    GenerateSceneObjectMutationVariables
-  >;
+export type CreateSceneMutationHookResult = ReturnType<
+  typeof useCreateSceneMutation
+>;
+export type CreateSceneMutationResult =
+  Apollo.MutationResult<CreateSceneMutation>;
+export type CreateSceneMutationOptions = Apollo.BaseMutationOptions<
+  CreateSceneMutation,
+  CreateSceneMutationVariables
+>;
+export const EditSceneDocument = gql`
+  mutation EditScene($input: SceneObjectInput!) {
+    editScene(input: $input) {
+      summary
+      actions {
+        ...EditActionFields
+      }
+    }
+  }
+  ${EditActionFieldsFragmentDoc}
+`;
+export type EditSceneMutationFn = Apollo.MutationFunction<
+  EditSceneMutation,
+  EditSceneMutationVariables
+>;
+
+/**
+ * __useEditSceneMutation__
+ *
+ * To run a mutation, you first call `useEditSceneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditSceneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editSceneMutation, { data, loading, error }] = useEditSceneMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEditSceneMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    EditSceneMutation,
+    EditSceneMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<EditSceneMutation, EditSceneMutationVariables>(
+    EditSceneDocument,
+    options,
+  );
+}
+export type EditSceneMutationHookResult = ReturnType<
+  typeof useEditSceneMutation
+>;
+export type EditSceneMutationResult = Apollo.MutationResult<EditSceneMutation>;
+export type EditSceneMutationOptions = Apollo.BaseMutationOptions<
+  EditSceneMutation,
+  EditSceneMutationVariables
+>;
 export const GetSceneDocument = gql`
   query GetScene($id: ID!) {
     getScene(id: $id) {
-      ...SceneFields
+      rootId
+      objects {
+        ...SceneObjectFields
+      }
     }
   }
-  ${SceneFieldsFragmentDoc}
+  ${SceneObjectFieldsFragmentDoc}
 `;
 
 /**
  * __useGetSceneQuery__
  *
- * To run a query within a Vue component, call `useGetSceneQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetSceneQuery` returns an object from Apollo Client that contains result, loading and error properties
+ * To run a query within a React component, call `useGetSceneQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSceneQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param variables that will be passed into the query
- * @param options that will be passed into the query, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/query.html#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { result, loading, error } = useGetSceneQuery({
- *   id: // value for 'id'
+ * const { data, loading, error } = useGetSceneQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
  * });
  */
 export function useGetSceneQuery(
-  variables:
-    | GetSceneQueryVariables
-    | VueCompositionApi.Ref<GetSceneQueryVariables>
-    | ReactiveFunction<GetSceneQueryVariables>,
-  options:
-    | VueApolloComposable.UseQueryOptions<GetSceneQuery, GetSceneQueryVariables>
-    | VueCompositionApi.Ref<
-        VueApolloComposable.UseQueryOptions<
-          GetSceneQuery,
-          GetSceneQueryVariables
-        >
-      >
-    | ReactiveFunction<
-        VueApolloComposable.UseQueryOptions<
-          GetSceneQuery,
-          GetSceneQueryVariables
-        >
-      > = {},
+  baseOptions: Apollo.QueryHookOptions<GetSceneQuery, GetSceneQueryVariables> &
+    ({ variables: GetSceneQueryVariables; skip?: boolean } | { skip: boolean }),
 ) {
-  return VueApolloComposable.useQuery<GetSceneQuery, GetSceneQueryVariables>(
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetSceneQuery, GetSceneQueryVariables>(
     GetSceneDocument,
-    variables,
     options,
   );
 }
 export function useGetSceneLazyQuery(
-  variables?:
-    | GetSceneQueryVariables
-    | VueCompositionApi.Ref<GetSceneQueryVariables>
-    | ReactiveFunction<GetSceneQueryVariables>,
-  options:
-    | VueApolloComposable.UseQueryOptions<GetSceneQuery, GetSceneQueryVariables>
-    | VueCompositionApi.Ref<
-        VueApolloComposable.UseQueryOptions<
-          GetSceneQuery,
-          GetSceneQueryVariables
-        >
-      >
-    | ReactiveFunction<
-        VueApolloComposable.UseQueryOptions<
-          GetSceneQuery,
-          GetSceneQueryVariables
-        >
-      > = {},
-) {
-  return VueApolloComposable.useLazyQuery<
+  baseOptions?: Apollo.LazyQueryHookOptions<
     GetSceneQuery,
     GetSceneQueryVariables
-  >(GetSceneDocument, variables, options);
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetSceneQuery, GetSceneQueryVariables>(
+    GetSceneDocument,
+    options,
+  );
 }
-export type GetSceneQueryCompositionFunctionResult =
-  VueApolloComposable.UseQueryReturn<GetSceneQuery, GetSceneQueryVariables>;
+export function useGetSceneSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GetSceneQuery, GetSceneQueryVariables>,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetSceneQuery, GetSceneQueryVariables>(
+    GetSceneDocument,
+    options,
+  );
+}
+export type GetSceneQueryHookResult = ReturnType<typeof useGetSceneQuery>;
+export type GetSceneLazyQueryHookResult = ReturnType<
+  typeof useGetSceneLazyQuery
+>;
+export type GetSceneSuspenseQueryHookResult = ReturnType<
+  typeof useGetSceneSuspenseQuery
+>;
+export type GetSceneQueryResult = Apollo.QueryResult<
+  GetSceneQuery,
+  GetSceneQueryVariables
+>;
+export const SaveSceneDocument = gql`
+  mutation SaveScene($id: ID!, $data: JSON!) {
+    saveScene(id: $id, data: $data)
+  }
+`;
+export type SaveSceneMutationFn = Apollo.MutationFunction<
+  SaveSceneMutation,
+  SaveSceneMutationVariables
+>;
+
+/**
+ * __useSaveSceneMutation__
+ *
+ * To run a mutation, you first call `useSaveSceneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSaveSceneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [saveSceneMutation, { data, loading, error }] = useSaveSceneMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useSaveSceneMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SaveSceneMutation,
+    SaveSceneMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<SaveSceneMutation, SaveSceneMutationVariables>(
+    SaveSceneDocument,
+    options,
+  );
+}
+export type SaveSceneMutationHookResult = ReturnType<
+  typeof useSaveSceneMutation
+>;
+export type SaveSceneMutationResult = Apollo.MutationResult<SaveSceneMutation>;
+export type SaveSceneMutationOptions = Apollo.BaseMutationOptions<
+  SaveSceneMutation,
+  SaveSceneMutationVariables
+>;
+export const UpdateSceneDocument = gql`
+  mutation UpdateScene($data: JSON!) {
+    updateScene(data: $data) {
+      rootId
+      objects {
+        ...SceneObjectFields
+      }
+    }
+  }
+  ${SceneObjectFieldsFragmentDoc}
+`;
+export type UpdateSceneMutationFn = Apollo.MutationFunction<
+  UpdateSceneMutation,
+  UpdateSceneMutationVariables
+>;
+
+/**
+ * __useUpdateSceneMutation__
+ *
+ * To run a mutation, you first call `useUpdateSceneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSceneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSceneMutation, { data, loading, error }] = useUpdateSceneMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateSceneMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateSceneMutation,
+    UpdateSceneMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateSceneMutation, UpdateSceneMutationVariables>(
+    UpdateSceneDocument,
+    options,
+  );
+}
+export type UpdateSceneMutationHookResult = ReturnType<
+  typeof useUpdateSceneMutation
+>;
+export type UpdateSceneMutationResult =
+  Apollo.MutationResult<UpdateSceneMutation>;
+export type UpdateSceneMutationOptions = Apollo.BaseMutationOptions<
+  UpdateSceneMutation,
+  UpdateSceneMutationVariables
+>;
+export const UpdateSceneObjectDocument = gql`
+  mutation UpdateSceneObject($input: PromptInput!) {
+    updateSceneObject(input: $input) {
+      ...SceneObjectFields
+    }
+  }
+  ${SceneObjectFieldsFragmentDoc}
+`;
+export type UpdateSceneObjectMutationFn = Apollo.MutationFunction<
+  UpdateSceneObjectMutation,
+  UpdateSceneObjectMutationVariables
+>;
+
+/**
+ * __useUpdateSceneObjectMutation__
+ *
+ * To run a mutation, you first call `useUpdateSceneObjectMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSceneObjectMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSceneObjectMutation, { data, loading, error }] = useUpdateSceneObjectMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateSceneObjectMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateSceneObjectMutation,
+    UpdateSceneObjectMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateSceneObjectMutation,
+    UpdateSceneObjectMutationVariables
+  >(UpdateSceneObjectDocument, options);
+}
+export type UpdateSceneObjectMutationHookResult = ReturnType<
+  typeof useUpdateSceneObjectMutation
+>;
+export type UpdateSceneObjectMutationResult =
+  Apollo.MutationResult<UpdateSceneObjectMutation>;
+export type UpdateSceneObjectMutationOptions = Apollo.BaseMutationOptions<
+  UpdateSceneObjectMutation,
+  UpdateSceneObjectMutationVariables
+>;

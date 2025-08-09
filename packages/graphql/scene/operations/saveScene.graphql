@@ -1,0 +1,3 @@
+mutation SaveScene($id: ID!, $data: JSON!) {
+  saveScene(id: $id, data: $data)
+}

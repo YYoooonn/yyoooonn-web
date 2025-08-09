@@ -1,0 +1,8 @@
+mutation UpdateScene($data: JSON!) {
+  updateScene(data: $data) {
+    rootId
+    objects {
+      ...SceneObjectFields
+    }
+  }
+}

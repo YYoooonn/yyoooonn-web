@@ -38,8 +38,8 @@ export type Scalars = {
 
 export type Animation = {
   __typename?: "Animation";
-  delay?: Maybe<Scalars["Int"]["output"]>;
-  duration: Scalars["Int"]["output"];
+  delay?: Maybe<Scalars["Float"]["output"]>;
+  duration: Scalars["Float"]["output"];
   from: Scalars["Float"]["output"];
   property: Scalars["String"]["output"];
   repeat?: Maybe<Scalars["Int"]["output"]>;
@@ -56,9 +56,51 @@ export type Camera = {
 };
 
 export enum CameraType {
-  Orthographic = "ORTHOGRAPHIC",
-  Perspective = "PERSPECTIVE",
+  Orthographic = "orthographic",
+  Perspective = "perspective",
 }
+
+export type ChatLog = {
+  __typename?: "ChatLog";
+  data?: Maybe<Array<Scalars["JSON"]["output"]>>;
+  message: Scalars["String"]["output"];
+  sender: Scalars["String"]["output"];
+  timestamp: Scalars["Int"]["output"];
+};
+
+export type ChatLogsResponse = {
+  __typename?: "ChatLogsResponse";
+  logs?: Maybe<Array<ChatLog>>;
+};
+
+export type CreateSceneInput = {
+  id: Scalars["String"]["input"];
+  prompt: Scalars["String"]["input"];
+};
+
+export type CreateSceneResponse = {
+  __typename?: "CreateSceneResponse";
+  data?: Maybe<Array<SceneObject>>;
+  summary?: Maybe<Scalars["String"]["output"]>;
+};
+
+export type EditAction = {
+  __typename?: "EditAction";
+  data?: Maybe<Scalars["JSON"]["output"]>;
+  type: EditActionType;
+};
+
+export enum EditActionType {
+  Add = "add",
+  Remove = "remove",
+  Update = "update",
+}
+
+export type EditSceneResponse = {
+  __typename?: "EditSceneResponse";
+  actions?: Maybe<Array<EditAction>>;
+  summary?: Maybe<Scalars["String"]["output"]>;
+};
 
 export type Geometry = {
   __typename?: "Geometry";
@@ -72,11 +114,11 @@ export type Geometry = {
 };
 
 export enum GeometryType {
-  Box = "BOX",
-  Cone = "CONE",
-  Custom = "CUSTOM",
-  Cylinder = "CYLINDER",
-  Sphere = "SPHERE",
+  Box = "box",
+  Cone = "cone",
+  Custom = "custom",
+  Cylinder = "cylinder",
+  Sphere = "sphere",
 }
 
 export type Light = {
@@ -91,10 +133,10 @@ export type Light = {
 };
 
 export enum LightType {
-  Ambient = "AMBIENT",
-  Directional = "DIRECTIONAL",
-  Point = "POINT",
-  Spot = "SPOT",
+  Ambient = "ambient",
+  Directional = "directional",
+  Point = "point",
+  Spot = "spot",
 }
 
 export type Material = {
@@ -108,56 +150,82 @@ export type Material = {
 };
 
 export enum MaterialType {
-  Basic = "BASIC",
-  Physical = "PHYSICAL",
-  Standard = "STANDARD",
+  Basic = "basic",
+  Physical = "physical",
+  Standard = "standard",
 }
 
 export type Mutation = {
   __typename?: "Mutation";
-  generateScene: Scene;
-  generateSceneObject: SceneObject;
+  createScene: CreateSceneResponse;
+  createSceneObject: SceneObject;
+  editScene: EditSceneResponse;
+  saveScene?: Maybe<Scalars["Boolean"]["output"]>;
+  updateScene: SceneData;
+  updateSceneObject: SceneObject;
 };
 
-export type MutationGenerateSceneArgs = {
-  input: SceneInput;
+export type MutationCreateSceneArgs = {
+  input: CreateSceneInput;
 };
 
-export type MutationGenerateSceneObjectArgs = {
+export type MutationCreateSceneObjectArgs = {
+  input: PromptInput;
+};
+
+export type MutationEditSceneArgs = {
   input: SceneObjectInput;
+};
+
+export type MutationSaveSceneArgs = {
+  data: Scalars["JSON"]["input"];
+  id: Scalars["ID"]["input"];
+};
+
+export type MutationUpdateSceneArgs = {
+  data: Scalars["JSON"]["input"];
+};
+
+export type MutationUpdateSceneObjectArgs = {
+  input: PromptInput;
+};
+
+export type PromptInput = {
+  prompt: Scalars["String"]["input"];
 };
 
 export type Query = {
   __typename?: "Query";
-  getScene?: Maybe<Scene>;
+  getChatLogs: ChatLogsResponse;
+  getScene?: Maybe<SceneData>;
+};
+
+export type QueryGetChatLogsArgs = {
+  id: Scalars["ID"]["input"];
 };
 
 export type QueryGetSceneArgs = {
   id: Scalars["ID"]["input"];
 };
 
-export type Scene = {
-  __typename?: "Scene";
-  background?: Maybe<Scalars["String"]["output"]>;
-  id: Scalars["ID"]["output"];
-  objects: Array<SceneObject>;
-};
-
-export type SceneInput = {
-  prompt: Scalars["String"]["input"];
+export type SceneData = {
+  __typename?: "SceneData";
+  objects?: Maybe<Array<SceneObject>>;
+  rootId: Scalars["ID"]["output"];
 };
 
 export type SceneObject = {
   __typename?: "SceneObject";
   animations?: Maybe<Array<Animation>>;
+  background?: Maybe<Scalars["String"]["output"]>;
   camera?: Maybe<Camera>;
-  children?: Maybe<Array<SceneObject>>;
   count?: Maybe<Scalars["Int"]["output"]>;
   geometry?: Maybe<Geometry>;
   id: Scalars["ID"]["output"];
   light?: Maybe<Light>;
   material?: Maybe<Material>;
   name?: Maybe<Scalars["String"]["output"]>;
+  parentId?: Maybe<Scalars["ID"]["output"]>;
   position?: Maybe<Vector3>;
   rotation?: Maybe<Vector3>;
   scale?: Maybe<Vector3>;
@@ -165,14 +233,17 @@ export type SceneObject = {
 };
 
 export type SceneObjectInput = {
+  data: Scalars["JSON"]["input"];
+  id: Scalars["String"]["input"];
   prompt: Scalars["String"]["input"];
 };
 
 export enum SceneObjectType {
-  Camera = "CAMERA",
-  Group = "GROUP",
-  Light = "LIGHT",
-  Mesh = "MESH",
+  Camera = "camera",
+  Group = "group",
+  Light = "light",
+  Mesh = "mesh",
+  Scene = "scene",
 }
 
 export type Vector3 = {
@@ -293,6 +364,13 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]["output"]>;
   Camera: ResolverTypeWrapper<Camera>;
   CameraType: CameraType;
+  ChatLog: ResolverTypeWrapper<ChatLog>;
+  ChatLogsResponse: ResolverTypeWrapper<ChatLogsResponse>;
+  CreateSceneInput: CreateSceneInput;
+  CreateSceneResponse: ResolverTypeWrapper<CreateSceneResponse>;
+  EditAction: ResolverTypeWrapper<EditAction>;
+  EditActionType: EditActionType;
+  EditSceneResponse: ResolverTypeWrapper<EditSceneResponse>;
   Float: ResolverTypeWrapper<Scalars["Float"]["output"]>;
   Geometry: ResolverTypeWrapper<Geometry>;
   GeometryType: GeometryType;
@@ -304,9 +382,9 @@ export type ResolversTypes = {
   Material: ResolverTypeWrapper<Material>;
   MaterialType: MaterialType;
   Mutation: ResolverTypeWrapper<{}>;
+  PromptInput: PromptInput;
   Query: ResolverTypeWrapper<{}>;
-  Scene: ResolverTypeWrapper<Scene>;
-  SceneInput: SceneInput;
+  SceneData: ResolverTypeWrapper<SceneData>;
   SceneObject: ResolverTypeWrapper<SceneObject>;
   SceneObjectInput: SceneObjectInput;
   SceneObjectType: SceneObjectType;
@@ -319,6 +397,12 @@ export type ResolversParentTypes = {
   Animation: Animation;
   Boolean: Scalars["Boolean"]["output"];
   Camera: Camera;
+  ChatLog: ChatLog;
+  ChatLogsResponse: ChatLogsResponse;
+  CreateSceneInput: CreateSceneInput;
+  CreateSceneResponse: CreateSceneResponse;
+  EditAction: EditAction;
+  EditSceneResponse: EditSceneResponse;
   Float: Scalars["Float"]["output"];
   Geometry: Geometry;
   ID: Scalars["ID"]["output"];
@@ -327,9 +411,9 @@ export type ResolversParentTypes = {
   Light: Light;
   Material: Material;
   Mutation: {};
+  PromptInput: PromptInput;
   Query: {};
-  Scene: Scene;
-  SceneInput: SceneInput;
+  SceneData: SceneData;
   SceneObject: SceneObject;
   SceneObjectInput: SceneObjectInput;
   String: Scalars["String"]["output"];
@@ -341,8 +425,8 @@ export type AnimationResolvers<
   ParentType extends
     ResolversParentTypes["Animation"] = ResolversParentTypes["Animation"],
 > = {
-  delay?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
-  duration?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  delay?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
+  duration?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
   from?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
   property?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   repeat?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
@@ -360,6 +444,73 @@ export type CameraResolvers<
   near?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
   type?: Resolver<ResolversTypes["CameraType"], ParentType, ContextType>;
   zoom?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ChatLogResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes["ChatLog"] = ResolversParentTypes["ChatLog"],
+> = {
+  data?: Resolver<
+    Maybe<Array<ResolversTypes["JSON"]>>,
+    ParentType,
+    ContextType
+  >;
+  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  sender?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  timestamp?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ChatLogsResponseResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes["ChatLogsResponse"] = ResolversParentTypes["ChatLogsResponse"],
+> = {
+  logs?: Resolver<
+    Maybe<Array<ResolversTypes["ChatLog"]>>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSceneResponseResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes["CreateSceneResponse"] = ResolversParentTypes["CreateSceneResponse"],
+> = {
+  data?: Resolver<
+    Maybe<Array<ResolversTypes["SceneObject"]>>,
+    ParentType,
+    ContextType
+  >;
+  summary?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EditActionResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes["EditAction"] = ResolversParentTypes["EditAction"],
+> = {
+  data?: Resolver<Maybe<ResolversTypes["JSON"]>, ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["EditActionType"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EditSceneResponseResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes["EditSceneResponse"] = ResolversParentTypes["EditSceneResponse"],
+> = {
+  actions?: Resolver<
+    Maybe<Array<ResolversTypes["EditAction"]>>,
+    ParentType,
+    ContextType
+  >;
+  summary?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -449,17 +600,41 @@ export type MutationResolvers<
   ParentType extends
     ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"],
 > = {
-  generateScene?: Resolver<
-    ResolversTypes["Scene"],
+  createScene?: Resolver<
+    ResolversTypes["CreateSceneResponse"],
     ParentType,
     ContextType,
-    RequireFields<MutationGenerateSceneArgs, "input">
+    RequireFields<MutationCreateSceneArgs, "input">
   >;
-  generateSceneObject?: Resolver<
+  createSceneObject?: Resolver<
     ResolversTypes["SceneObject"],
     ParentType,
     ContextType,
-    RequireFields<MutationGenerateSceneObjectArgs, "input">
+    RequireFields<MutationCreateSceneObjectArgs, "input">
+  >;
+  editScene?: Resolver<
+    ResolversTypes["EditSceneResponse"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationEditSceneArgs, "input">
+  >;
+  saveScene?: Resolver<
+    Maybe<ResolversTypes["Boolean"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationSaveSceneArgs, "data" | "id">
+  >;
+  updateScene?: Resolver<
+    ResolversTypes["SceneData"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateSceneArgs, "data">
+  >;
+  updateSceneObject?: Resolver<
+    ResolversTypes["SceneObject"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateSceneObjectArgs, "input">
   >;
 };
 
@@ -468,30 +643,31 @@ export type QueryResolvers<
   ParentType extends
     ResolversParentTypes["Query"] = ResolversParentTypes["Query"],
 > = {
+  getChatLogs?: Resolver<
+    ResolversTypes["ChatLogsResponse"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetChatLogsArgs, "id">
+  >;
   getScene?: Resolver<
-    Maybe<ResolversTypes["Scene"]>,
+    Maybe<ResolversTypes["SceneData"]>,
     ParentType,
     ContextType,
     RequireFields<QueryGetSceneArgs, "id">
   >;
 };
 
-export type SceneResolvers<
+export type SceneDataResolvers<
   ContextType = any,
   ParentType extends
-    ResolversParentTypes["Scene"] = ResolversParentTypes["Scene"],
+    ResolversParentTypes["SceneData"] = ResolversParentTypes["SceneData"],
 > = {
-  background?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   objects?: Resolver<
-    Array<ResolversTypes["SceneObject"]>,
+    Maybe<Array<ResolversTypes["SceneObject"]>>,
     ParentType,
     ContextType
   >;
+  rootId?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -505,12 +681,12 @@ export type SceneObjectResolvers<
     ParentType,
     ContextType
   >;
-  camera?: Resolver<Maybe<ResolversTypes["Camera"]>, ParentType, ContextType>;
-  children?: Resolver<
-    Maybe<Array<ResolversTypes["SceneObject"]>>,
+  background?: Resolver<
+    Maybe<ResolversTypes["String"]>,
     ParentType,
     ContextType
   >;
+  camera?: Resolver<Maybe<ResolversTypes["Camera"]>, ParentType, ContextType>;
   count?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
   geometry?: Resolver<
     Maybe<ResolversTypes["Geometry"]>,
@@ -525,6 +701,7 @@ export type SceneObjectResolvers<
     ContextType
   >;
   name?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  parentId?: Resolver<Maybe<ResolversTypes["ID"]>, ParentType, ContextType>;
   position?: Resolver<
     Maybe<ResolversTypes["Vector3"]>,
     ParentType,
@@ -554,13 +731,18 @@ export type Vector3Resolvers<
 export type Resolvers<ContextType = any> = {
   Animation?: AnimationResolvers<ContextType>;
   Camera?: CameraResolvers<ContextType>;
+  ChatLog?: ChatLogResolvers<ContextType>;
+  ChatLogsResponse?: ChatLogsResponseResolvers<ContextType>;
+  CreateSceneResponse?: CreateSceneResponseResolvers<ContextType>;
+  EditAction?: EditActionResolvers<ContextType>;
+  EditSceneResponse?: EditSceneResponseResolvers<ContextType>;
   Geometry?: GeometryResolvers<ContextType>;
   JSON?: GraphQLScalarType;
   Light?: LightResolvers<ContextType>;
   Material?: MaterialResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  Scene?: SceneResolvers<ContextType>;
+  SceneData?: SceneDataResolvers<ContextType>;
   SceneObject?: SceneObjectResolvers<ContextType>;
   Vector3?: Vector3Resolvers<ContextType>;
 };

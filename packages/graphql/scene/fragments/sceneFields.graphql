@@ -1,7 +1,0 @@
-fragment SceneFields on Scene {
-  id
-  background
-  objects {
-    ...SceneObjectFields
-  }
-}

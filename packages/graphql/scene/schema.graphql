@@ -1,15 +1,44 @@
-input SceneInput {
+input PromptInput {
   prompt: String!
 }
+
+input CreateSceneInput {
+  prompt: String!,
+  id: String!
+}
+
 input SceneObjectInput {
-  prompt: String!
+  prompt: String!,
+  id: String!,
+  data: JSON!
+}
+
+type SceneData {
+  rootId: ID!
+  objects: [SceneObject!]
+}
+
+type EditSceneResponse {
+  summary: String
+  actions: [EditAction!]
+}
+
+type CreateSceneResponse {
+  summary: String
+  data: [SceneObject!]
 }
 
 extend type Query {
-  getScene(id: ID!): Scene
+  getScene(id: ID!): SceneData
 }
 
 extend type Mutation {
-  generateScene(input: SceneInput!): Scene!
-  generateSceneObject(input: SceneObjectInput!): SceneObject!
+  saveScene(id: ID!, data: JSON!): Boolean
+  createScene(input: CreateSceneInput!): CreateSceneResponse!
+  editScene(input: SceneObjectInput!): EditSceneResponse!
+
+
+  updateScene(data: JSON!): SceneData!
+  createSceneObject(input: PromptInput!): SceneObject!
+  updateSceneObject(input: PromptInput!): SceneObject!
 }

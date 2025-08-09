@@ -1,0 +1,5 @@
+mutation UpdateSceneObject($input: PromptInput!){
+    updateSceneObject(input: $input) {
+        ...SceneObjectFields
+    }
+}

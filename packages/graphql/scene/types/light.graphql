@@ -9,8 +9,8 @@ type Light {
 }
 
 enum LightType {
-  AMBIENT
-  DIRECTIONAL
-  POINT
-  SPOT
+  ambient
+  directional
+  point
+  spot
 }

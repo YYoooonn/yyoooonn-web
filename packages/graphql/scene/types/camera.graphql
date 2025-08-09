@@ -7,6 +7,6 @@ type Camera {
 }
 
 enum CameraType {
-  PERSPECTIVE
-  ORTHOGRAPHIC
+  perspective
+  orthographic
 }

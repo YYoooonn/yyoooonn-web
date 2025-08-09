@@ -1,0 +1,10 @@
+query GetChatLogs($id: ID!) {
+  getChatLogs(id: $id) {
+    logs {
+        sender
+        message
+        timestamp
+        data
+    }
+  }
+}

@@ -1,5 +1,6 @@
 query GetScene($id: ID!) {
   getScene(id: $id) {
-    ...SceneFields
+    rootId
+    objects {...SceneObjectFields}
   }
 }

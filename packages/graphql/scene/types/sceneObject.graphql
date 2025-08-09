@@ -1,7 +1,12 @@
 type SceneObject {
   id: ID!
+  parentId: ID # flatten -> tree를 위함
   name: String
   type: SceneObjectType!
+
+  # -------------- type specific -------------
+  #scene
+  background: String
   # mesh
   geometry: Geometry
   material: Material
@@ -10,19 +15,19 @@ type SceneObject {
   # camera
   camera: Camera
 
-  # common
+  # -------------- common -------------
   # transform
   position: Vector3
   rotation: Vector3
   scale: Vector3
   animations: [Animation!]
   count: Int
-  children: [SceneObject!]
 }
 
 enum SceneObjectType {
-  MESH
-  LIGHT
-  CAMERA
-  GROUP
+  mesh
+  light
+  camera
+  group
+  scene
 }

@@ -1,0 +1,4 @@
+fragment EditActionFields on EditAction {
+    type
+    data
+}

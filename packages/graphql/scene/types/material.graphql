@@ -6,3 +6,9 @@ type Material {
   transparent: Boolean
   opacity: Float
 }
+
+enum MaterialType {
+  standard
+  physical
+  basic
+}

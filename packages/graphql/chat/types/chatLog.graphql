@@ -1,0 +1,6 @@
+type ChatLog {
+    sender: String!
+    message: String!
+    timestamp: Int!
+    data: [JSON!]
+}

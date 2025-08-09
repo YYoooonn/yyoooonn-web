@@ -1,0 +1,5 @@
+mutation CreateSceneObject($input: PromptInput!) {
+  createSceneObject(input: $input) {
+    ...SceneObjectFields
+  }
+}

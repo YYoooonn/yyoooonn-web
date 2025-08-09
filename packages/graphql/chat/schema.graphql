@@ -1,0 +1,7 @@
+type ChatLogsResponse {
+  logs: [ChatLog!]
+}
+
+extend type Query {
+    getChatLogs(id: ID!): ChatLogsResponse!
+}
