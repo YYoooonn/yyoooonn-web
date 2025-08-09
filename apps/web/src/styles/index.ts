@@ -1,2 +1,2 @@
-export * as breakpoints from "./constants/breakpoints";
+export * from "./constants/breakpoints";
 export * from "./theme";

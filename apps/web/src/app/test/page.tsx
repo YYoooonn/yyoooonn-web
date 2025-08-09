@@ -1,7 +1,5 @@
 "use client";
 
-import VectorTileMap from "@/components/map/VectorMap";
-
-export default function MapPage() {
-  return <VectorTileMap />;
+export default function TestPage() {
+  return <h1>TestPage</h1>;
 }

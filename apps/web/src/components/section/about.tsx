@@ -27,6 +27,7 @@ export function AboutSection({ toggle, p }: SProps) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          fontFamily: themeVars.font.secondary,
         }}
       >
         <h1
@@ -72,7 +73,7 @@ function TagContainer({ children }: { children: React.ReactNode }) {
         textAlign: "left",
         color: themeVars.color.secondary,
         paddingRight: "20px",
-        ...themeVars.textStyle.medium,
+        ...themeVars.textStyle.small,
       }}
     >
       {children}
@@ -89,7 +90,7 @@ function LinkContainer({ children }: { children: React.ReactNode }) {
     <div
       style={{
         color: themeVars.color.textPlaceholderDark,
-        ...themeVars.textStyle.medium,
+        ...themeVars.textStyle.small,
       }}
     >
       {children}

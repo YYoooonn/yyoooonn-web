@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { ibmPlexSans, jetBrains_Mono, sortMillGoudy } from "@/assets/fonts";
 import "@/styles/global.css";
 import ModalContainer from "@/components/modal/ModalContainer";
+import Header from "@/components/layout/Header";
 import { defaultTheme, themeVars } from "@/styles";
+import { ApolloWrapper } from "@/components/ApolloProvider";
 
 export const metadata: Metadata = {
   title: "yyoooonn",
@@ -28,9 +30,12 @@ export default function RootLayout({
       <head>
         <title>yyoooonn</title>
       </head>
-      <body style={{ fontFamily: themeVars.font.primary }}>
+      <body style={{ fontFamily: themeVars.font.secondary }}>
+        <Header />
         <ModalContainer />
-        <main>{children}</main>
+        <main>
+          <ApolloWrapper>{children}</ApolloWrapper>
+        </main>
       </body>
     </html>
   );

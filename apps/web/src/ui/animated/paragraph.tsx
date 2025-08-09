@@ -84,6 +84,6 @@ export function ColorMixer({
 
 function remap(start: number, end: number, n: number) {
   // start - end 까지 범위를 0 - target으로 변환
-  console.log("remap");
+  // console.log("remap");
   return n / (end - start);
 }
