@@ -1,0 +1,42 @@
+{
+  "id": "mesh-1",
+  "name": "Box Mesh",
+  "type": "MESH",
+  "position": { "x": 0, "y": 1, "z": 0 },
+  "rotation": { "x": 0, "y": 0, "z": 0 },
+  "scale": { "x": 1, "y": 1, "z": 1 },
+  "animations": [
+    {
+      "property": "rotation.y",
+      "from": 0,
+      "to": 6.2832,
+      "duration": 5000,
+      "repeat": -1
+    }
+  ],
+  "count": 1,
+  "geometry": {
+    "type": "BOX",
+    "params": {
+      "width": 1,
+      "height": 1,
+      "depth": 1
+    },
+    "vertices": [],
+    "indices": [],
+    "normals": [],
+    "uvs": [],
+    "colors": []
+  },
+  "material": {
+    "type": "STANDARD",
+    "color": "#00ff00",
+    "roughness": 0.5,
+    "metalness": 0.1,
+    "transparent": false,
+    "opacity": 1
+  },
+  "light": null,
+  "camera": null,
+  "children": []
+}

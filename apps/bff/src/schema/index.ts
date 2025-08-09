@@ -4,12 +4,12 @@ import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import path from "path";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 // resolvers
 const resolvers = mergeResolvers(
-  loadFilesSync(path.join(__dirname, "../resolvers/**/*.resolver.ts")),
+  loadFilesSync(path.join(__dirname, "../**/*.resolver.ts")),
 );
 
 // typdefs

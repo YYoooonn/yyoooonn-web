@@ -1,0 +1,157 @@
+{
+  "rootId": "scene-1",
+  "objects": [
+    {
+      "id": "scene-1",
+      "name": "Main Scene",
+      "type": "scene",
+      "background": "#202020",
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "scale": { "x": 1, "y": 1, "z": 1 },
+      "animations": [],
+      "count": 4,
+      "children": ["camera-1", "light-1", "mesh-1", "group-1"],
+      "parentId": null
+    },
+    {
+      "id": "camera-1",
+      "name": "Main Camera",
+      "type": "camera",
+      "camera": {
+        "type": "PERSPECTIVE",
+        "fov": 75,
+        "near": 0.1,
+        "far": 1000,
+        "zoom": 1
+      },
+      "position": { "x": 0, "y": 1, "z": 5 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "scale": { "x": 1, "y": 1, "z": 1 },
+      "animations": [],
+      "count": 0,
+      "children": [],
+      "parentId": "scene-1"
+    },
+    {
+      "id": "light-1",
+      "name": "Sun Light",
+      "type": "light",
+      "light": {
+        "type": "directional",
+        "color": "#ffffff",
+        "intensity": 1,
+        "position": { "x": 10, "y": 20, "z": 10 },
+        "distance": 0,
+        "angle": 0,
+        "target": { "x": 0, "y": 0, "z": 0 }
+      },
+      "position": { "x": 10, "y": 20, "z": 10 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "scale": { "x": 1, "y": 1, "z": 1 },
+      "animations": [],
+      "count": 0,
+      "children": [],
+      "parentId": "scene-1"
+    },
+    {
+      "id": "mesh-1",
+      "name": "Red Cube",
+      "type": "mesh",
+      "geometry": {
+        "type": "box",
+        "params": [1, 1, 1],
+        "vertices": [],
+        "indices": [],
+        "normals": [],
+        "uvs": [],
+        "colors": []
+      },
+      "material": {
+        "type": "standard",
+        "color": "#ff0000",
+        "roughness": 0.5,
+        "metalness": 0,
+        "transparent": false,
+        "opacity": 1
+      },
+      "position": { "x": -2, "y": 0.5, "z": 0 },
+      "rotation": { "x": 0, "y": 0.5, "z": 0 },
+      "scale": { "x": 1, "y": 1, "z": 1 },
+      "animations": [],
+      "count": 0,
+      "children": [],
+      "parentId": "scene-1"
+    },
+    {
+      "id": "group-1",
+      "name": "Box Group",
+      "type": "group",
+      "position": { "x": 2, "y": 0, "z": 0 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "scale": { "x": 1, "y": 1, "z": 1 },
+      "animations": [],
+      "count": 2,
+      "children": ["mesh-2", "mesh-3"],
+      "parentId": "scene-1"
+    },
+    {
+      "id": "mesh-2",
+      "name": "Blue Cube",
+      "type": "mesh",
+      "geometry": {
+        "type": "box",
+        "params": [1, 1, 1],
+        "vertices": [],
+        "indices": [],
+        "normals": [],
+        "uvs": [],
+        "colors": []
+      },
+      "material": {
+        "type": "standard",
+        "color": "#0000ff",
+        "roughness": 0.3,
+        "metalness": 0,
+        "transparent": false,
+        "opacity": 1
+      },
+      "position": { "x": 0, "y": 0.5, "z": 0 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "scale": { "x": 1, "y": 1, "z": 1 },
+      "animations": [],
+      "count": 0,
+      "children": [],
+      "parentId": "group-1"
+    },
+    {
+      "id": "mesh-3",
+      "name": "Green Cube",
+      "type": "mesh",
+      "geometry": {
+        "type": "box",
+        "params": [1, 1, 1],
+        "vertices": [],
+        "indices": [],
+        "normals": [],
+        "uvs": [],
+        "colors": []
+      },
+      "material": {
+        "type": "standard",
+        "color": "#00ff00",
+        "roughness": 0.3,
+        "metalness": 0,
+        "transparent": false,
+        "opacity": 1
+      },
+      "position": { "x": 2, "y": 0.5, "z": 0 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "scale": { "x": 1, "y": 1, "z": 1 },
+      "animations": [],
+      "count": 0,
+      "children": [],
+      "parentId": "group-1"
+    }
+  ]
+}
