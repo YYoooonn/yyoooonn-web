@@ -1,10 +1,10 @@
 import http from "http";
-import expressServer from "./app.js"; // 추가
+import expressServer from "./app"; // 추가
 import { expressMiddleware } from "@apollo/server/express4";
-import { createContext } from "./context/createContext.js";
+import { createContext } from "./context/createContext";
 import { ApolloServer } from "@apollo/server";
-import schema from "./schema/index.js";
-import { Context } from "./context/context.js";
+import schema from "./schema/index";
+import { Context } from "./context/context";
 
 export async function createApolloServer() {
   const server = new ApolloServer<Context>({
@@ -28,7 +28,7 @@ export async function startServer() {
     }),
   );
 
-  const port = Number(process.env.PORT_BACK || 4000);
+  const port = Number(process.env.PORT_BFF || 4000);
 
   httpServer.listen({ port }, () => {
     console.log(`🚀 Server ready at http://localhost:${port}`);
