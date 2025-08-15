@@ -10,7 +10,7 @@
     "skipLibCheck": true,
     "types": ["node"],
     "baseUrl": ".",
-    "outDir": "dist",
+    "outDir": "dist"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts", "**/*.test.ts"]
