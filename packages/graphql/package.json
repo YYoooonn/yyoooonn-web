@@ -28,13 +28,20 @@
     "@graphql-codegen/client-preset": "^4.8.3",
     "@graphql-codegen/typescript": "^4.1.6",
     "@graphql-codegen/typescript-operations": "^4.6.1",
-    "@graphql-codegen/typescript-resolvers": "^4.5.1",
     "@graphql-codegen/typescript-react-apollo": "^4.1.2",
+    "@graphql-codegen/typescript-resolvers": "^4.5.1",
     "graphql": "^16.11.0",
     "graphql-tag": "^2.12.6",
     "prettier": "^3.6.2"
   },
+  "peerDependencies": {
+    "graphql": "^16.11.0"
+  },
   "files": [
-    "generated"
-  ]
+    "generated",
+    "**/*.graphql"
+  ],
+  "dependencies": {
+    "@apollo/client": "^3.13.9"
+  }
 }
