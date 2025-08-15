@@ -52,11 +52,13 @@ export function Toolbar() {
 function HelperButtons({ printInfo }: { printInfo: (txt: string) => void }) {
   const { addNode, nodeMap } = useSceneStore();
 
-  const addTempNode = () => {
+  const addTempNode = (e: React.MouseEvent) => {
+    e.preventDefault();
     addNode(SAMPLE_MESH_NODE);
   };
 
-  const printNodeMap = () => {
+  const printNodeMap = (e: React.MouseEvent) => {
+    e.preventDefault();
     printInfo(JSON.stringify(nodeMap, null, 2));
   };
 

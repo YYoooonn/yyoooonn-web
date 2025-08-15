@@ -1,5 +1,5 @@
 import { ChatLog, useGetChatLogsQuery } from "@repo/graphql/client";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useChatStore } from "../toolbar/store/chatStore";
 
 export const useChatLoader = (id: string | null | undefined) => {
@@ -21,9 +21,9 @@ export const useChatLoader = (id: string | null | undefined) => {
         sender: l.sender,
         message: l.message,
         timestamp: l.timestamp,
-      })),
+      })) ?? [],
     );
   }, [data, loading, error, setMessages]);
 
-  return { data, loading, error };
+  return useMemo(() => ({ data, loading, error }), [data, error]);
 };

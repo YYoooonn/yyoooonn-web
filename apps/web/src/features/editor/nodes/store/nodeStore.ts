@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { SceneNode, FlattenedSceneNode } from "../model";
-import { EditAction } from "@repo/graphql/client";
 import { deepMergeLite } from "../utils/deepMerge";
 import { DEFAULT_NODE } from "../utils/default";
+import type { EditAction, SceneObject } from "@repo/graphql/client";
 
 type SceneData = {
   rootId: string;

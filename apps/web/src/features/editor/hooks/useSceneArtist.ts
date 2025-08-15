@@ -14,9 +14,7 @@ export const useSceneArtist = () => {
     CreateSceneMutation,
     CreateSceneMutationVariables
   >(CreateSceneDocument, {
-    onCompleted: ({ createScene }) => {
-      console.log(createScene);
-    },
+    onCompleted: ({ createScene }) => {},
     onError: (err) => console.warn(err),
   });
 

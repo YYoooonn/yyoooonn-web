@@ -113,25 +113,32 @@ function MobileMenu({ isOpen, toggleOpen }: MobileMenuProps) {
           className={styles.mobileNavLink}
           onClick={() => toggleOpen(false)}
         >
-          Canvas
+          Canvas(wip)
         </a>
         <a
-          href="/test"
+          href="https://github.com/YYoooonn"
           className={styles.mobileNavLink}
           onClick={() => toggleOpen(false)}
         >
-          Test
+          github
         </a>
         <a
-          href="#about"
+          href="https://velog.io/@yyoooonn"
           className={styles.mobileNavLink}
           onClick={() => toggleOpen(false)}
         >
-          About
+          velog
+        </a>
+        <a
+          href="https://issuu.com/yoonjonguk/docs/yyoooonn_wip?fr=sMGJjNjgzMzU5NDM"
+          className={styles.mobileNavLink}
+          onClick={() => toggleOpen(false)}
+        >
+          arch
         </a>
       </nav>
 
-      <div className={styles.mobileActions}>
+      {/* <div className={styles.mobileActions}>
         <a
           href="/login"
           className={`${styles.button} ${styles.secondaryButton} ${styles.secondaryButtonDark}`}
@@ -146,7 +153,7 @@ function MobileMenu({ isOpen, toggleOpen }: MobileMenuProps) {
         >
           Get Started
         </a>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -18,28 +18,39 @@ export const NodeRenderer: React.FC<NodeRendererProps> = ({ nodeId }) => {
   // node.animations를 Object3D.userData.animations에 할당
   useEffect(() => {
     if (ref.current) {
-      ref.current.userData.animations = node.animations ?? [];
+      // duration 이 ms 인 경우, sec 단위 환산
+      ref.current.userData.animations =
+        node.animations?.map((anim) => ({
+          ...anim,
+          duration: anim.duration > 1000 ? anim.duration / 1000 : anim.duration,
+        })) ?? [];
     }
   }, [node.animations]);
 
   // 애니메이션 훅 호출 (userData.animations 순회 및 갱신)
   useAnimations(ref);
 
-  const matrix = useMemo(() => {
-    const m = new Matrix4();
-    const { position, rotation, scale } = node;
-    m.compose(
-      new Vector3(position.x, position.y, position.z),
-      new Quaternion().setFromEuler(
-        new Euler(rotation.x, rotation.y, rotation.z),
-      ),
-      new Vector3(scale.x, scale.y, scale.z),
-    );
-    return m;
-  }, [node.position, node.rotation, node.scale]);
+  const position = useMemo(
+    () => [node.position.x, node.position.y, node.position.z],
+    [node.position],
+  ) as [number, number, number];
+  const scale = useMemo(
+    () => [node.scale.x, node.scale.y, node.scale.z],
+    [node.scale],
+  ) as [number, number, number];
+  const rotation = useMemo(
+    () => [node.rotation.x, node.rotation.y, node.rotation.z],
+    [node.rotation],
+  ) as [number, number, number];
 
   return (
-    <group matrixAutoUpdate={false} matrix={matrix} ref={ref}>
+    <group
+      matrixAutoUpdate={false}
+      position={position}
+      scale={scale}
+      rotation={rotation}
+      ref={ref}
+    >
       {renderByType(node)}
       {node.children?.map((childId) => (
         <NodeRenderer key={childId} nodeId={childId} />

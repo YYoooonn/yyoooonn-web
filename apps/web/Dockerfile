@@ -38,8 +38,12 @@ COPY turbo.json turbo.json
 # ARG TURBO_TEAM
 # ENV TURBO_TEAM=$TURBO_TEAM
 
-# ARG TURBO_TOKEN
-# ENV TURBO_TOKEN=$TURBO_TOKEN
+# Copy NEXT_PUBLIC variables
+ARG NEXT_PUBLIC_GRAPHQL_API
+ENV NEXT_PUBLIC_GRAPHQL_API=${NEXT_PUBLIC_GRAPHQL_API}
+
+COPY .env ./apps/web/.env
+COPY .env ./.env
 
 RUN turbo run build --filter=web
 
@@ -60,5 +64,8 @@ COPY --from=installer /app/apps/web/package.json .
 COPY --from=installer --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
 COPY --from=installer --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
+
+COPY .env ./apps/web/.env
+COPY .env ./.env
 
 CMD ["node", "apps/web/server.js"]
