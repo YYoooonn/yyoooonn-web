@@ -1,5 +1,5 @@
 import type { Resolvers, SceneObject } from "@repo/graphql/server";
-import { loadChatMessages } from "../../../lib/redis/chatStore";
+import { loadChatMessages } from "../../../lib/redis/chatStore.js";
 
 const chatResolvers: Resolvers = {
   Query: {

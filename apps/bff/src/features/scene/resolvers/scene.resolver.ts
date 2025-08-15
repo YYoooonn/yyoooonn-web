@@ -1,11 +1,14 @@
 import type { Resolvers } from "@repo/graphql/server";
-import { redis } from "../../../lib/redis";
-import { saveScene } from "../../../lib/redis/sceneStore";
-import { initScene } from "../utils/initScene";
-import { generateGeminiResponse } from "src/features/gemini/services/gemini.service";
-import { generateEditPrompt } from "src/features/gemini/lib/generateEditPrompt";
-import { generateArtistPrompt } from "src/features/gemini/lib/generateArtistPrompt";
-import { loadChatMessages, saveChatMessage } from "src/lib/redis/chatStore";
+import { redis } from "../../../lib/redis/index.js";
+import { saveScene } from "../../../lib/redis/sceneStore.js";
+import { initScene } from "../utils/initScene.js";
+import { generateGeminiResponse } from "../../../features/gemini/services/gemini.service.js";
+import { generateEditPrompt } from "../../../features/gemini/lib/generateEditPrompt.js";
+import { generateArtistPrompt } from "../../../features/gemini/lib/generateArtistPrompt.js";
+import {
+  loadChatMessages,
+  saveChatMessage,
+} from "../../../lib/redis/chatStore.js";
 
 const sceneResolvers: Resolvers = {
   Query: {

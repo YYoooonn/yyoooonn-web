@@ -1,10 +1,10 @@
 import { Type } from "@google/genai";
-import { geometrySchema } from "./geometry";
-import { vectorSchema } from "./vector";
-import { materialSchema } from "./material";
-import { lightSchema } from "./light";
-import { cameraSchema } from "./camera";
-import { animationSchema } from "./animation";
+import { geometrySchema } from "./geometry.js";
+import { vectorSchema } from "./vector.js";
+import { materialSchema } from "./material.js";
+import { lightSchema } from "./light.js";
+import { cameraSchema } from "./camera.js";
+import { animationSchema } from "./animation.js";
 
 const sceneObjectSchema = {
   type: Type.OBJECT,

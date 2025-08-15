@@ -1,17 +1,11 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["src"],
-  outDir: "dist",
-  target: "node16",
-  format: ["esm"], // or ['cjs'] depending on your environment
-  sourcemap: false,
+  entry: ["src/index.ts"], // 진입점, schema 관련 코드 포함
+  format: ["esm"], // esm 포맷으로 빌드
+  dts: true, // 타입 선언 파일 생성
+  splitting: false, // ESM 코드 분할 (선택 사항)
+  sourcemap: true,
   clean: true,
-  dts: false,
-  minify: true,
-  bundle: true,
-  splitting: false,
-  skipNodeModulesBundle: true,
-  // external: ['@apollo/server', 'graphql'], // ✅ graphql 관련은 외부로 설정
-  // noExternal: ['@graphql-tools/*'], // 필요시 추가
+  external: ["fs", "path", "url"], // node 내장 모듈 external 처리
 });

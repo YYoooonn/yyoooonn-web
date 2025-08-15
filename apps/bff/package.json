@@ -3,17 +3,22 @@
   "version": "1.0.0",
   "description": "bff server, express + apollo server",
   "private": "true",
+  "type": "module",
   "main": "src/index.ts",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "start": "pnpm build && node ./dist/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@apollo/client": "^3.13.9",
     "@apollo/server": "^4.11.3",
+    "@graphql-tools/load-files": "^7.0.1",
+    "@graphql-tools/merge": "^9.0.24",
+    "@graphql-tools/schema": "^10.0.23",
     "@google/genai": "^1.9.0",
     "@repo/graphql": "workspace:*",
     "cors": "^2.8.5",
@@ -24,9 +29,6 @@
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
-    "@graphql-tools/load-files": "^7.0.1",
-    "@graphql-tools/merge": "^9.0.24",
-    "@graphql-tools/schema": "^10.0.23",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/cors": "^2.8.19",

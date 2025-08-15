@@ -4,7 +4,7 @@ import { Type } from "@google/genai";
 //   updateActionSchema,
 //   removeActionSchema,
 // } from "./action";
-import { sceneObjectSchema } from "./base";
+import { sceneObjectSchema } from "./base/index.js";
 
 export const editResponseSchema = {
   type: Type.OBJECT,

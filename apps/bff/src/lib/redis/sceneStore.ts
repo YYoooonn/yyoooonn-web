@@ -1,4 +1,4 @@
-import { redis } from ".";
+import { redis } from "./index.js";
 
 export const getSceneById = async (id: string) => {
   const raw = await redis?.get(`scene:${id}`);
@@ -15,7 +15,6 @@ export const saveScene = async (id: string, data: any) => {
       60 * 30,
     );
     if (res !== "OK") {
-      console.log(res);
       return false;
     }
     return true;

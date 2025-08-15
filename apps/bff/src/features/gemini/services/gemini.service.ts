@@ -1,12 +1,12 @@
 import { GoogleGenAI } from "@google/genai";
-import { editResponseSchema } from "../schema";
+import { editResponseSchema } from "../schema/index.js";
 // import { sceneObjectSchema } from "../schema/base";
 import {
   artistSytemInstruction,
   editSystemInstruction,
-} from "../lib/systemInstructions";
+} from "../lib/systemInstructions.js";
 import dotenv from "dotenv";
-import { createResponseSchema } from "../schema/createResponseSchema";
+import { createResponseSchema } from "../schema/createResponseSchema.js";
 
 dotenv.config();
 const genAI = new GoogleGenAI({

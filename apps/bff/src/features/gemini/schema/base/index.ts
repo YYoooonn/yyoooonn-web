@@ -1,1 +1,1 @@
-export * from "./sceneObject";
+export * from "./sceneObject.js";

@@ -1,5 +1,5 @@
 import { Type } from "@google/genai";
-import { sceneObjectSchema } from "../base/sceneObject";
+import { sceneObjectSchema } from "../base/sceneObject.js";
 
 const addActionSchema = {
   type: Type.OBJECT,

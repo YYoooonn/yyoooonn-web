@@ -1,5 +1,5 @@
 import express from "express";
-import authRouter from "./routes/auth";
+import authRouter from "./routes/auth.js";
 import cors from "cors";
 
 const app: express.Application = express();
@@ -8,7 +8,12 @@ app.options("*", cors());
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://yyoooonn.com"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost",
+      "https://yyoooonn.com",
+      "http://yyoooonn.com",
+    ],
     // credentials: true,
   }),
 );

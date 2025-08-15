@@ -1,3 +1,3 @@
-export * from "./addAction";
-export * from "./removeAction";
-export * from "./updateAction";
+export * from "./addAction.js";
+export * from "./removeAction.js";
+export * from "./updateAction.js";

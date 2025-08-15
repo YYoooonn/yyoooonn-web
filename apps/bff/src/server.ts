@@ -1,15 +1,19 @@
 import http from "http";
-import expressServer from "./app"; // 추가
+import expressServer from "./app.js"; // 추가
 import { expressMiddleware } from "@apollo/server/express4";
-import { createContext } from "./context/createContext";
+import { createContext } from "./context/createContext.js";
 import { ApolloServer } from "@apollo/server";
-import schema from "./schema/index";
-import { Context } from "./context/context";
+import { loadSchema } from "./schema/index.js";
+import { Context } from "./context/context.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export async function createApolloServer() {
+  const schema = await loadSchema();
   const server = new ApolloServer<Context>({
     schema: schema,
-    introspection: true, // 개발 환경에서만 사용
+    introspection: process.env.NODE_ENV !== "production", // 개발 환경에서만 사용
   });
 
   await server.start();

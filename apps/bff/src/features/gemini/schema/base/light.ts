@@ -1,6 +1,6 @@
 import { Type } from "@google/genai";
-import { vectorSchema } from "./vector";
-import { colorSchema } from "./color";
+import { vectorSchema } from "./vector.js";
+import { colorSchema } from "./color.js";
 
 export const lightSchema = {
   type: Type.OBJECT,

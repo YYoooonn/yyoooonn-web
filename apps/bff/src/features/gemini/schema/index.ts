@@ -1,1 +1,1 @@
-export * from "./editResponseSchema";
+export * from "./editResponseSchema.js";

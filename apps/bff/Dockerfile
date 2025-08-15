@@ -1,49 +1,37 @@
-FROM node:18-alpine AS alpine
-
-# setup pnpm on the alpine base
-FROM alpine AS base
+# --- 1. base ---
+FROM node:18-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-RUN pnpm install turbo --global
+RUN corepack enable && pnpm install turbo --global
 
+# --- 2. prune ---
 FROM base AS builder
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
-RUN apk update
-# Set working directory
 WORKDIR /app
 COPY ../ .
 RUN turbo prune --scope=bff --docker
 
-# Add lockfile and package.json's of isolated subworkspace
+# 2. installer 단계 (pnpm install 직접 수행)
 FROM base AS installer
-RUN apk add --no-cache libc6-compat
-RUN apk update
 WORKDIR /app
-
-# First install the dependencies (as they change less often)
-COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=builder /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
-# Build the project
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
-
 RUN turbo run build --filter=bff...
 
-# use alpine as the thinest image
-FROM alpine AS runner
+# 3. runner 단계 (node_modules 복사 안 하고 설치 필요 시 설치)
+FROM node:18-alpine AS runner
 WORKDIR /app
 
-# Don't run production as root
 RUN addgroup --system --gid 1001 express
 RUN adduser --system --uid 1001 express
 USER express
 
 COPY --from=installer /app .
+
+ENV NODE_ENV=production
 
 CMD ["node", "apps/bff/dist/index.js"]

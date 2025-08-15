@@ -1,5 +1,5 @@
 import { Type } from "@google/genai";
-import { colorSchema } from "./color";
+import { colorSchema } from "./color.js";
 
 export const materialSchema = {
   type: Type.OBJECT,

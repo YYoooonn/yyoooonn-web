@@ -1,6 +1,3 @@
-import type { SceneObject } from "@repo/graphql/server";
-import { loadFromMock } from "./loadFromMock";
-
 export function initScene(id: string) {
   return {
     rootId: id,
@@ -19,20 +16,4 @@ export function initScene(id: string) {
       },
     ],
   };
-}
-
-export async function initTestScene(id: string) {
-  const mock = await loadFromMock("scene/test2.json");
-  const newMock = {
-    ...mock,
-    rootId: id,
-    objects: mock.objects.map((obj: SceneObject) =>
-      obj.id === mock.rootId
-        ? { ...obj, id }
-        : obj.parentId === mock.rootId
-          ? { ...obj, parentId: id }
-          : obj,
-    ),
-  };
-  return newMock;
 }

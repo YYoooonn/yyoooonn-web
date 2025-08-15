@@ -1,4 +1,4 @@
-import { redis } from ".";
+import { redis } from "./index.js";
 
 export type ChatMessage = {
   sender: string;
