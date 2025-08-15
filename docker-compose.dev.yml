@@ -18,9 +18,15 @@ services:
       - test
 
   web:
+    env_file:
+      - .env
     build:
       context: .
       dockerfile: apps/web/Dockerfile
+      args:
+        - NEXT_PUBLIC_GRAPHQL_API=${NEXT_PUBLIC_GRAPHQL_API}
+    environment:
+      - NEXT_PUBLIC_GRAPHQL_API=${NEXT_PUBLIC_GRAPHQL_API}
     container_name: front
     expose:
       - "3000"
@@ -31,6 +37,8 @@ services:
       - local
 
   bff:
+    env_file:
+      - .env
     build:
       context: .
       dockerfile: apps/bff/Dockerfile
@@ -44,6 +52,7 @@ services:
     profiles:
       - test
       - local
+      - back
 
   # postgres:
   #   platform: linux/amd64
@@ -81,11 +90,13 @@ services:
     networks:
       - dev-net
     profiles:
+      - test
       - db
+      - back
 
 volumes:
-  pgdata:
   redis-data:
+  # pgdata:
 
 networks:
   dev-net:

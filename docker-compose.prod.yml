@@ -20,7 +20,6 @@ services:
       - nginx_network
     profiles:
       - prod
-
   certbot:
     image: certbot/certbot
     container_name: certbot
@@ -28,11 +27,11 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
       - /var/run/docker.sock:/var/run/docker.sock
-    entrypoint: > 
-      /bin/sh -c "apk add docker-cli && trap exit TERM; 
-      while :; do 
+    entrypoint: >
+      /bin/sh -c "apk add docker-cli && trap exit TERM;
+      while :; do
         certbot renew --deploy-hook 'docker exec nginx nginx -s reload';
-        sleep 12h & wait $${!}; 
+        sleep 12h & wait $${!};
       done;"
     networks:
       - nginx_network
@@ -40,9 +39,15 @@ services:
       - prod
 
   web:
+    env_file:
+      - .env
     build:
       context: .
       dockerfile: apps/web/Dockerfile
+      args:
+        - NEXT_PUBLIC_GRAPHQL_API=${NEXT_PUBLIC_GRAPHQL_API}
+    environment:
+      - NEXT_PUBLIC_GRAPHQL_API=${NEXT_PUBLIC_GRAPHQL_API}
     container_name: front
     expose:
       - "3000"
@@ -54,6 +59,8 @@ services:
       - prod
 
   bff:
+    env_file:
+      - .env
     build:
       context: .
       dockerfile: apps/bff/Dockerfile
@@ -66,32 +73,29 @@ services:
       - "4000"
     networks:
       - prod-net
+    depends_on:
+      - redis
+    profiles:
+      - prod
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    env_file:
+      - .env
+    ports:
+      - ${REDIS_PORT}:6379
+    command: >
+      sh -c "redis-server --requirepass $${REDIS_PASSWORD} --maxmemory $${MAX_MEMORY} --appendonly yes"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - prod-net
     profiles:
       - prod
 
-  postgres:
-    platform: linux/amd64
-    image: postgres:15
-    container_name: db
-    restart: always
-    ports:
-      - ${POSTGRES_PORT}:5432
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - pgdata:/var/lib/postgres/data
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "user"]
-      interval: 3s
-      timeout: 3s
-      retries: 10
-    profiles:
-      - db
-
 volumes:
-  pgdata:
+  redis-data:
 
 networks:
   prod-net:
