@@ -56,7 +56,9 @@ export const baseInd = style({
   position: "absolute",
   textAlign: "right",
   verticalAlign: "bottom",
-  ...themeVars.textStyle.medium,
+  ...themeVars.textStyle.small,
+  fontWeight: "300",
+  fontStyle: "italic",
 });
 
 export const indText = style([

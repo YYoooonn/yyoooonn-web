@@ -13,6 +13,7 @@ type SProps = {
 export function LandingSection({ toggle, p }: SProps) {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
+    if (!toggle) return;
     if (toggle && p) {
       setProgress(p);
     } else {
@@ -26,7 +27,8 @@ export function LandingSection({ toggle, p }: SProps) {
         style={{
           textAlign: "center",
           color: themeVars.color.text,
-          ...themeVars.textStyle.xlarge,
+          ...themeVars.textStyle.large,
+          fontStyle: "italic",
         }}
       >
         <FontMixer text={"yyoooonn"} progress={progress} end={0.4} />
@@ -34,7 +36,7 @@ export function LandingSection({ toggle, p }: SProps) {
 
       <div
         style={{
-          ...themeVars.textStyle.medium,
+          ...themeVars.textStyle.small,
         }}
       >
         <ColorMixer

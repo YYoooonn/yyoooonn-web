@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ibmPlexSans, jetBrains_Mono, sortMillGoudy } from "@/assets/fonts";
+import { ibmPlexSans, timesNewRoman, arial } from "@/assets/fonts";
 import "@/styles/global.css";
 import ModalContainer from "@/components/modal/ModalContainer";
 import Header from "@/components/layout/Header";
@@ -25,12 +25,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${jetBrains_Mono.variable} ${sortMillGoudy.variable} ${ibmPlexSans.variable} ${defaultTheme}`}
+      className={`${ibmPlexSans.variable} ${timesNewRoman.variable} ${arial.variable} ${defaultTheme}`}
     >
       <head>
         <title>yyoooonn</title>
       </head>
-      <body style={{ fontFamily: themeVars.font.secondary }}>
+      <body
+        style={{
+          fontFamily: themeVars.font.primary,
+          fontStyle: "normal",
+          fontWeight: "300",
+          backgroundColor: themeVars.color.background,
+        }}
+      >
         <Header />
         <ModalContainer />
         <main>

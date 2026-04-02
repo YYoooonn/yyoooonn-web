@@ -4,6 +4,7 @@ export interface BaseNode {
   name: string;
   type: string;
   children: BaseNode[];
+  position: { x: number; y: number; z?: number };
   is3D?: boolean;
   props?: Record<string, string | number>;
 }

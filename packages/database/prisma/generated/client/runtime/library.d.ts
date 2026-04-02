@@ -2403,8 +2403,7 @@ declare type HrTime_2 = [number, number];
  * Matches a JSON array.
  * Unlike \`JsonArray\`, readonly arrays are assignable to this type.
  */
-export declare interface InputJsonArray
-  extends ReadonlyArray<InputJsonValue | null> {}
+export declare interface InputJsonArray extends ReadonlyArray<InputJsonValue | null> {}
 
 /**
  * Matches a JSON object.

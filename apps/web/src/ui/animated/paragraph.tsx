@@ -41,8 +41,20 @@ export function FontMixer({
         textAlign: "center",
       }}
     >
-      <span style={{ fontFamily: themeVars.font.primary }}>{txtStart}</span>
-      <span style={{ fontFamily: themeVars.font.tertiary }}>{txtEnd}</span>
+      <span
+        style={{
+          fontFamily: themeVars.font.primary,
+          fontStyle: "italic",
+          fontWeight: 800,
+        }}
+      >
+        {txtStart}
+      </span>
+      <span
+        style={{ fontFamily: themeVars.font.secondary, fontStyle: "italic" }}
+      >
+        {txtEnd}
+      </span>
     </p>
   );
 }
@@ -77,7 +89,9 @@ export function ColorMixer({
       }}
     >
       <span style={{ color: themeVars.color.secondary }}>{txtStart}</span>
-      {/* <span style={{ color: themeVars.color.textPlaceholder }}>{txtEnd}</span> */}
+      <span style={{ color: themeVars.color.textPlaceholderLight }}>
+        {txtEnd}
+      </span>
     </p>
   );
 }

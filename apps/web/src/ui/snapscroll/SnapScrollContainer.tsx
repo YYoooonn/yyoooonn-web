@@ -8,6 +8,9 @@ import { Indicator } from "./Indicator";
 type PSnapPageScroll = {
   titles?: string[];
   onScroll?: (page: number, progress: number) => void;
+  onPageChange?: (page: number) => void;
+  onProgressChange?: (progress: number) => void;
+  damp?: number; // damping factor for scroll
 } & PropsWithChildren;
 
 const DAMP = 3;
@@ -16,6 +19,7 @@ export const SnapPageScroll: FC<PSnapPageScroll> = ({
   titles,
   onScroll,
   children,
+  damp = DAMP,
 }) => {
   const l = Array.isArray(children) ? children.length : 1;
   const containerRef = useRef<HTMLDivElement>(null!);
@@ -55,10 +59,10 @@ export const SnapPageScroll: FC<PSnapPageScroll> = ({
   const phandler = (i: number) => {
     containerRef.current.scrollTo({
       top: Math.ceil(
-        ((DAMP * l - 1) / (DAMP * l)) *
+        ((damp * l - 1) / (damp * l)) *
           containerRef.current.clientHeight *
           i *
-          DAMP,
+          damp,
       ),
       behavior: "smooth",
     });
@@ -73,11 +77,11 @@ export const SnapPageScroll: FC<PSnapPageScroll> = ({
         progress={progress}
         phandler={phandler}
       />
-      <ALayer current={current} l={l}>
+      <ALayer current={current} l={l} damp={damp}>
         {children}
       </ALayer>
 
-      <div style={{ height: `${l * DAMP * 100}%` }} />
+      <div style={{ height: `${l * damp * 100}%` }} />
     </div>
   );
 };
@@ -85,14 +89,15 @@ export const SnapPageScroll: FC<PSnapPageScroll> = ({
 type TAnimatedLayer = {
   current: SpringValue;
   l: number;
+  damp: number; // damping factor for scroll
 } & PropsWithChildren;
 
-const ALayer = ({ children, current, l }: TAnimatedLayer) => {
+const ALayer = ({ children, current, l, damp }: TAnimatedLayer) => {
   const ChildArray = Array.isArray(children) ? children : [children];
   return (
     <div
       className={styles.snapAnimateContainer}
-      style={{ height: `${DAMP * l * 100}%` }}
+      style={{ height: `${damp * l * 100}%` }}
     >
       <div className={styles.snapAnimateSectionContainer}>
         {ChildArray.map((child, i) => {

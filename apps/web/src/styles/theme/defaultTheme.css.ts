@@ -8,6 +8,7 @@ const defaultTheme = createTheme(themeVars, {
     secondary: globalTheme.blue,
     tertiary: globalTheme.green,
     background: globalTheme.white,
+    backgroundBlur: globalTheme.whiteAlpha,
     text: globalTheme.gray600,
     textLight: globalTheme.white,
     textDark: globalTheme.gray800,
@@ -25,9 +26,10 @@ const defaultTheme = createTheme(themeVars, {
     xlarge: globalTheme.heading2,
   },
   font: {
-    primary: globalTheme.goudy,
-    secondary: globalTheme.ibm,
-    tertiary: globalTheme.jetBrains,
+    primary: globalTheme.arial,
+    secondary: globalTheme.timesNewRoman,
+    tertiary: globalTheme.ibm,
+    times: globalTheme.timesNewRoman,
   },
   spacing: {
     xsmall: globalTheme.s4,

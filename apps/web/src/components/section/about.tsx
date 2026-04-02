@@ -5,6 +5,9 @@ import { themeVars } from "@/styles";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
+import * as styles from "./about.css";
+import { navigate } from "@/lib/navigate";
+
 type SProps = {
   toggle?: boolean;
   p?: number;
@@ -22,43 +25,25 @@ export function AboutSection({ toggle, p }: SProps) {
 
   return (
     <LandingSectionContainer>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          fontFamily: themeVars.font.secondary,
-        }}
-      >
-        <h1
-          style={{
-            width: "100%",
-            textAlign: "left",
-            color: themeVars.color.text,
-            ...themeVars.textStyle.xlarge,
-          }}
-        >
-          about
-        </h1>
+      <div className={styles.aboutContainer}>
+        <h2 style={{ width: "100%" }}> about </h2>
         <div
           style={{
+            width: "100%",
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
           }}
         >
           <TagContainer>
+            <TagBlock tag="email" />
             <TagBlock tag="github" />
             <TagBlock tag="blog" />
-            <TagBlock tag="arch" />
           </TagContainer>
           <LinkContainer>
+            <TextBlock text="jonguk527@gmail.com" />
             <LinkBlock link="https://github.com/YYoooonn" />
             <LinkBlock link="https://velog.io/@yyoooonn" />
-            <LinkBlock
-              link="https://issuu.com/yoonjonguk/docs/yyoooonn_wip?fr=sMGJjNjgzMzU5NDM"
-              tag="https://issuu.com/yoonjonguk"
-            />
           </LinkContainer>
         </div>
       </div>
@@ -105,5 +90,13 @@ function LinkBlock({ link, tag }: { link: string; tag?: string }) {
         {tag ? tag : link}
       </Link>
     </p>
+  );
+}
+
+function TextBlock({ text }: { text: string }) {
+  return (
+    <div style={{ padding: themeVars.spacing.xsmall }}>
+      <div style={{ color: themeVars.color.textPlaceholderDark }}>{text}</div>
+    </div>
   );
 }

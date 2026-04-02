@@ -37,21 +37,21 @@ export default function Header() {
             <a href="/canvas" className={`${styles.navLink}`}>
               Canvas(wip)
             </a>
+            {/* <a
+              href="/arch"
+              className={`${styles.navLink}`}
+            >
+              Arch
+            </a> */}
             <a
               href="https://github.com/YYoooonn"
-              className={`${styles.navLink}`}
+              className={`${styles.navLinkUnderline}`}
             >
               github
             </a>
             <a
-              href="https://issuu.com/yoonjonguk/docs/yyoooonn_wip?fr=sMGJjNjgzMzU5NDM"
-              className={`${styles.navLink}`}
-            >
-              arch
-            </a>
-            <a
               href="https://velog.io/@yyoooonn"
-              className={`${styles.navLink}`}
+              className={`${styles.navLinkUnderline}`}
             >
               velog
             </a>
@@ -129,13 +129,13 @@ function MobileMenu({ isOpen, toggleOpen }: MobileMenuProps) {
         >
           velog
         </a>
-        <a
+        {/* <a
           href="https://issuu.com/yoonjonguk/docs/yyoooonn_wip?fr=sMGJjNjgzMzU5NDM"
           className={styles.mobileNavLink}
           onClick={() => toggleOpen(false)}
         >
           arch
-        </a>
+        </a> */}
       </nav>
 
       {/* <div className={styles.mobileActions}>

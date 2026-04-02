@@ -6,6 +6,9 @@ const nextConfig = {
   reactStrictMode: false,
   // transpilePackages: ["@repo/ui"],
   output: "standalone",
+  compiler: {
+    removeConsole: true,
+  },
 };
 
 module.exports = withVanillaExtract(nextConfig);

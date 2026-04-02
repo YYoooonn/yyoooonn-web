@@ -422,8 +422,8 @@ export type ResolversParentTypes = {
 
 export type AnimationResolvers<
   ContextType = any,
-  ParentType extends
-    ResolversParentTypes["Animation"] = ResolversParentTypes["Animation"],
+  ParentType extends ResolversParentTypes["Animation"] =
+    ResolversParentTypes["Animation"],
 > = {
   delay?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
   duration?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
@@ -436,8 +436,8 @@ export type AnimationResolvers<
 
 export type CameraResolvers<
   ContextType = any,
-  ParentType extends
-    ResolversParentTypes["Camera"] = ResolversParentTypes["Camera"],
+  ParentType extends ResolversParentTypes["Camera"] =
+    ResolversParentTypes["Camera"],
 > = {
   far?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
   fov?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
@@ -449,8 +449,8 @@ export type CameraResolvers<
 
 export type ChatLogResolvers<
   ContextType = any,
-  ParentType extends
-    ResolversParentTypes["ChatLog"] = ResolversParentTypes["ChatLog"],
+  ParentType extends ResolversParentTypes["ChatLog"] =
+    ResolversParentTypes["ChatLog"],
 > = {
   data?: Resolver<
     Maybe<Array<ResolversTypes["JSON"]>>,
@@ -465,8 +465,8 @@ export type ChatLogResolvers<
 
 export type ChatLogsResponseResolvers<
   ContextType = any,
-  ParentType extends
-    ResolversParentTypes["ChatLogsResponse"] = ResolversParentTypes["ChatLogsResponse"],
+  ParentType extends ResolversParentTypes["ChatLogsResponse"] =
+    ResolversParentTypes["ChatLogsResponse"],
 > = {
   logs?: Resolver<
     Maybe<Array<ResolversTypes["ChatLog"]>>,
@@ -478,8 +478,8 @@ export type ChatLogsResponseResolvers<
 
 export type CreateSceneResponseResolvers<
   ContextType = any,
-  ParentType extends
-    ResolversParentTypes["CreateSceneResponse"] = ResolversParentTypes["CreateSceneResponse"],
+  ParentType extends ResolversParentTypes["CreateSceneResponse"] =
+    ResolversParentTypes["CreateSceneResponse"],
 > = {
   data?: Resolver<
     Maybe<Array<ResolversTypes["SceneObject"]>>,
@@ -492,8 +492,8 @@ export type CreateSceneResponseResolvers<
 
 export type EditActionResolvers<
   ContextType = any,
-  ParentType extends
-    ResolversParentTypes["EditAction"] = ResolversParentTypes["EditAction"],
+  ParentType extends ResolversParentTypes["EditAction"] =
+    ResolversParentTypes["EditAction"],
 > = {
   data?: Resolver<Maybe<ResolversTypes["JSON"]>, ParentType, ContextType>;
   type?: Resolver<ResolversTypes["EditActionType"], ParentType, ContextType>;
@@ -502,8 +502,8 @@ export type EditActionResolvers<
 
 export type EditSceneResponseResolvers<
   ContextType = any,
-  ParentType extends
-    ResolversParentTypes["EditSceneResponse"] = ResolversParentTypes["EditSceneResponse"],
+  ParentType extends ResolversParentTypes["EditSceneResponse"] =
+    ResolversParentTypes["EditSceneResponse"],
 > = {
   actions?: Resolver<
     Maybe<Array<ResolversTypes["EditAction"]>>,
@@ -516,8 +516,8 @@ export type EditSceneResponseResolvers<
 
 export type GeometryResolvers<
   ContextType = any,
-  ParentType extends
-    ResolversParentTypes["Geometry"] = ResolversParentTypes["Geometry"],
+  ParentType extends ResolversParentTypes["Geometry"] =
+    ResolversParentTypes["Geometry"],
 > = {
   colors?: Resolver<
     Maybe<Array<ResolversTypes["Float"]>>,
@@ -553,15 +553,17 @@ export type GeometryResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface JsonScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["JSON"], any> {
+export interface JsonScalarConfig extends GraphQLScalarTypeConfig<
+  ResolversTypes["JSON"],
+  any
+> {
   name: "JSON";
 }
 
 export type LightResolvers<
   ContextType = any,
-  ParentType extends
-    ResolversParentTypes["Light"] = ResolversParentTypes["Light"],
+  ParentType extends ResolversParentTypes["Light"] =
+    ResolversParentTypes["Light"],
 > = {
   angle?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
   color?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
@@ -579,8 +581,8 @@ export type LightResolvers<
 
 export type MaterialResolvers<
   ContextType = any,
-  ParentType extends
-    ResolversParentTypes["Material"] = ResolversParentTypes["Material"],
+  ParentType extends ResolversParentTypes["Material"] =
+    ResolversParentTypes["Material"],
 > = {
   color?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   metalness?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
@@ -597,8 +599,8 @@ export type MaterialResolvers<
 
 export type MutationResolvers<
   ContextType = any,
-  ParentType extends
-    ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"],
+  ParentType extends ResolversParentTypes["Mutation"] =
+    ResolversParentTypes["Mutation"],
 > = {
   createScene?: Resolver<
     ResolversTypes["CreateSceneResponse"],
@@ -640,8 +642,8 @@ export type MutationResolvers<
 
 export type QueryResolvers<
   ContextType = any,
-  ParentType extends
-    ResolversParentTypes["Query"] = ResolversParentTypes["Query"],
+  ParentType extends ResolversParentTypes["Query"] =
+    ResolversParentTypes["Query"],
 > = {
   getChatLogs?: Resolver<
     ResolversTypes["ChatLogsResponse"],
@@ -659,8 +661,8 @@ export type QueryResolvers<
 
 export type SceneDataResolvers<
   ContextType = any,
-  ParentType extends
-    ResolversParentTypes["SceneData"] = ResolversParentTypes["SceneData"],
+  ParentType extends ResolversParentTypes["SceneData"] =
+    ResolversParentTypes["SceneData"],
 > = {
   objects?: Resolver<
     Maybe<Array<ResolversTypes["SceneObject"]>>,
@@ -673,8 +675,8 @@ export type SceneDataResolvers<
 
 export type SceneObjectResolvers<
   ContextType = any,
-  ParentType extends
-    ResolversParentTypes["SceneObject"] = ResolversParentTypes["SceneObject"],
+  ParentType extends ResolversParentTypes["SceneObject"] =
+    ResolversParentTypes["SceneObject"],
 > = {
   animations?: Resolver<
     Maybe<Array<ResolversTypes["Animation"]>>,
@@ -719,8 +721,8 @@ export type SceneObjectResolvers<
 
 export type Vector3Resolvers<
   ContextType = any,
-  ParentType extends
-    ResolversParentTypes["Vector3"] = ResolversParentTypes["Vector3"],
+  ParentType extends ResolversParentTypes["Vector3"] =
+    ResolversParentTypes["Vector3"],
 > = {
   x?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
   y?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;

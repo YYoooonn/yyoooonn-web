@@ -2,6 +2,7 @@ const neutralColors = {
   // 중립 색상 (흑백 계열)
   black: "#0c0c0c",
   white: "#f2f2f2",
+  whiteAlpha: "rgba(255, 255, 255, 0.5)",
   gray100: "#f3f4f6",
   gray200: "#e5e7eb",
   gray300: "#d1d5db",

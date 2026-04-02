@@ -3,9 +3,8 @@ import { style } from "@vanilla-extract/css";
 import globalTheme from "@/styles/theme/globalTheme.css";
 
 export const modalContainer = style({
-  backgroundColor: themeVars.color.background,
+  backgroundColor: themeVars.color.backgroundBlur,
   position: "fixed",
-  opacity: 0.5,
   top: 0,
   left: 0,
   right: 0,

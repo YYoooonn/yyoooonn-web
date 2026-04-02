@@ -15,10 +15,12 @@
     "@react-three/drei": "^9.120.5",
     "@react-three/fiber": "^8.18.0",
     "@repo/graphql": "workspace:*",
-    "next": "^14.2.16",
+    "graphql": "^16.11.0",
+    "next": "^14.2.31",
     "ol": "^10.6.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-pageflip": "^2.0.3",
     "zustand": "^5.0.3"
   },
   "devDependencies": {

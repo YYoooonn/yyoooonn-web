@@ -11,6 +11,7 @@ export const themeVars = createThemeContract({
     secondary: "",
     tertiary: "",
     background: "",
+    backgroundBlur: "",
     text: "",
     textLight: "",
     textDark: "",
@@ -31,6 +32,7 @@ export const themeVars = createThemeContract({
     primary: "",
     secondary: "",
     tertiary: "",
+    times: "",
   },
   spacing: {
     xsmall: "",

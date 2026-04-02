@@ -12,20 +12,8 @@ export const navContainer = style({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-});
-
-export const navWrapper = style({
-  position: "relative",
-  display: "flex",
-  justifyContent: "space-between",
   height: "64px",
-  width: "90%",
-  alignItems: "center",
   padding: "0 24px",
-  borderRadius: "16px",
-  backgroundColor: "rgba(255, 255, 255, 0.1)",
-  backdropFilter: "blur(10px)",
-  borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
   transition: "all 0.2s ease-in-out",
   "@media": {
     [breakpoints.lowTablet]: {
@@ -35,10 +23,31 @@ export const navWrapper = style({
   },
 });
 
+export const navWrapper = style({
+  position: "relative",
+  display: "flex",
+  justifyContent: "space-between",
+  height: "64px",
+  width: "100%",
+  alignItems: "center",
+  padding: "0 24px",
+  borderRadius: "16px",
+  backgroundColor: "rgba(255, 255, 255, 0.1)",
+  backdropFilter: "blur(10px)",
+  borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+  // transition: "all 0.2s ease-in-out",
+  // "@media": {
+  //   [breakpoints.lowTablet]: {
+  //     padding: "0 16px",
+  //     height: "40px",
+  //   },
+  // },
+});
+
 export const scrolled = style([
   navWrapper,
   {
-    backgroundColor: "rgba(255, 255, 255, 0.95)",
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
     boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
   },
 ]);
@@ -100,6 +109,18 @@ export const navLink = style({
     },
   },
 });
+
+export const navLinkUnderline = style([
+  navLink,
+  {
+    textDecoration: "underline",
+    selectors: {
+      "&:hover": {
+        color: themeVars.color.secondary,
+      },
+    },
+  },
+]);
 
 export const navLinkDark = style({
   "@media": {

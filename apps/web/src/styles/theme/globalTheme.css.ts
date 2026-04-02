@@ -5,7 +5,8 @@ import { textStyle } from "../constants/textStyles";
 // CHECK 폰트 변경시 체크 필요
 const ibm = `--font-ibm-plex-sans`;
 const jetBrains = `--font-jetbrains-mono`;
-const goudy = `--font-goudy-bookletter`;
+const timesNewRoman = `--font-times-new-roman`;
+const arial = `--font-arial`;
 
 const spacing = {
   s4: "4px",
@@ -29,7 +30,8 @@ const borderStyle = {
 const globalTheme = createGlobalTheme(":root", {
   ibm: `var(${ibm})`,
   jetBrains: `var(${jetBrains})`,
-  goudy: `var(${goudy})`,
+  timesNewRoman: `var(${timesNewRoman})`,
+  arial: `var(${arial})`,
   ...palettes,
   ...textStyle,
   ...spacing,

@@ -665,11 +665,10 @@ export namespace Prisma {
     db?: Datasource;
   };
 
-  interface TypeMapCb
-    extends $Utils.Fn<
-      { extArgs: $Extensions.InternalArgs; clientOptions: PrismaClientOptions },
-      $Utils.Record<string, any>
-    > {
+  interface TypeMapCb extends $Utils.Fn<
+    { extArgs: $Extensions.InternalArgs; clientOptions: PrismaClientOptions },
+    $Utils.Record<string, any>
+  > {
     returns: Prisma.TypeMap<
       this["params"]["extArgs"],
       this["params"]["clientOptions"]
